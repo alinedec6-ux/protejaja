@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Recuperar senha | ProtejaJA{% endblock %}
+
+{% block content %}
+<section class="w-full max-w-md mx-auto py-10">
+    <div class="card">
+        <h1 class="text-2xl font-extrabold text-slate-900 text-center mb-1">Recuperar senha</h1>
+        <p class="text-sm text-slate-500 text-center mb-6">
+            Informe seu e-mail e sua data de nascimento para gerar uma senha temporária.
+        </p>
+
+        {% if senha_temporaria %}
+            <div class="alert alert-success">
+                <div class="font-semibold mb-1">Senha temporária gerada para {{ senha_temporaria[0] }}:</div>
+                <div class="text-2xl font-extrabold tracking-wider text-center my-3">{{ senha_temporaria[1] }}</div>
+                <div class="text-sm">
+                    Use essa senha no login. Após entrar, cadastre uma nova senha no próximo passo.
+                    Anote-a agora — ela não será exibida novamente.
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="/login" class="btn-rosa w-full">Ir para o login</a>
+            </div>
+        {% else %}
+            <form method="POST" action="/recuperar" class="space-y-4">
+                <div>
+                    <label for="email" class="campo-label">E-mail cadastrado</label>
+                    <input type="email" id="email" name="email" required
+                           class="campo" placeholder="voce@exemplo.com" value="{{ request.form.get('email', '') }}">
+                </div>
+                <div>
+                    <label for="data_nascimento" class="campo-label">Data de nascimento</label>
+                    <input type="date" id="data_nascimento" name="data_nascimento" required
+                           class="campo" value="{{ request.form.get('data_nascimento', '') }}">
+                </div>
+
+                <button type="submit" class="btn-rosa btn-grande w-full">Gerar senha temporária</button>
+            </form>
+
+            <p class="text-sm text-slate-600 text-center mt-6">
+                Lembrou a senha?
+                <a href="/login" class="font-semibold text-rose-600 hover:text-rose-700">Voltar ao login</a>
+            </p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

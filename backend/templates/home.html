@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Home | ProtejaJA{% endblock %}
+
+{% block content %}
+<section class="w-full max-w-2xl mx-auto text-center py-10">
+    <div class="mb-8">
+        <span class="badge-rosa inline-block mb-6">Projeto Integrador</span>
+        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 mb-4">
+            Proteja<span class="text-rose-600">JA</span>
+        </h1>
+        <p class="text-lg text-slate-700 leading-relaxed">
+            Plataforma para registrar denúncias com segurança. Seus dados ficam
+            protegidos no banco, as senhas são criptografadas e cada texto é
+            filtrado contra palavras ofensivas.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+        <div class="card">
+            <div class="text-2xl mb-1">🔒</div>
+            <div class="stat-label">Senhas criptografadas</div>
+            <p class="text-sm text-slate-600">Nunca armazenadas em texto puro.</p>
+        </div>
+        <div class="card">
+            <div class="text-2xl mb-1">🛡️</div>
+            <div class="stat-label">Filtro antiofensa</div>
+            <p class="text-sm text-slate-600">Palavras de baixo calão são bloqueadas.</p>
+        </div>
+        <div class="card">
+            <div class="text-2xl mb-1">📎</div>
+            <div class="stat-label">Anexo de prova</div>
+            <p class="text-sm text-slate-600">Envie imagem, PDF ou vídeo do lugar ou produto.</p>
+        </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        {% if user %}
+            <a href="/denuncias" class="btn-rosa btn-grande w-full sm:w-auto">Enviar denúncia</a>
+        {% else %}
+            <a href="/cadastro" class="btn-rosa btn-grande w-full sm:w-auto">Criar conta</a>
+            <a href="/login" class="btn-contorno btn-grande w-full sm:w-auto">Entrar</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

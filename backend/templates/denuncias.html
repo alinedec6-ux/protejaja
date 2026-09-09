@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Denúncias | ProtejaJA{% endblock %}
+
+{% block content %}
+<section class="w-full max-w-2xl mx-auto py-10">
+    <h1 class="text-2xl font-extrabold text-slate-900 text-center mb-1">Enviar denúncia</h1>
+    <p class="text-sm text-slate-500 text-center mb-6">
+        Anexe uma prova do lugar ou do produto. Todos os textos passam pelo filtro antiofensa.
+    </p>
+
+    <div class="card mb-8">
+        <form method="POST" action="/denuncias" enctype="multipart/form-data" class="space-y-4">
+            <div>
+                <label for="categoria" class="campo-label">Categoria</label>
+                <select id="categoria" name="categoria" class="campo bg-white">
+                    <option>Geral</option>
+                    <option>Local</option>
+                    <option>Produto</option>
+                    <option>Serviço</option>
+                    <option>Segurança</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="descricao" class="campo-label">Descrição da denúncia *</label>
+                <textarea id="descricao" name="descricao" rows="5" required
+                          class="campo" placeholder="Descreva o que aconteceu, onde e quando..."></textarea>
+            </div>
+
+            <div>
+                <label for="anexo" class="campo-label">Prova (imagem, PDF ou vídeo)</label>
+                <input type="file" id="anexo" name="anexo" accept=".png,.jpg,.jpeg,.gif,.webp,.heic,.heif,.pdf,.mp4,.mov"
+                       class="campo-arquivo">
+                <p class="text-xs text-slate-500 mt-1">Máximo de 5 MB.</p>
+                <div id="preview-anexo" class="hidden mt-3"></div>
+            </div>
+
+            <button type="submit" class="btn-rosa btn-grande w-full">Enviar denúncia</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2 class="text-xl font-bold text-slate-900 mb-4">Minhas denúncias</h2>
+
+        {% if denuncias %}
+            <ul class="space-y-4">
+                {% for d in denuncias %}
+                    <li class="border border-rose-100 rounded-xl p-4">
+                        <div class="flex items-center justify-between gap-3 mb-1">
+                            <span class="badge-rosa">{{ d.categoria }}</span>
+                            <span class="text-xs text-slate-400">{{ d.criado_em }}</span>
+                        </div>
+                        <p class="text-sm text-slate-700">{{ d.descricao }}</p>
+                        {% if d.anexo %}
+                            <a href="/uploads/{{ d.anexo }}" target="_blank"
+                               class="inline-flex items-center gap-1 text-xs font-semibold text-rose-600 hover:text-rose-700 mt-2">
+                                📎 Ver anexo ({{ d.anexo }})
+                            </a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-sm text-slate-400">Você ainda não enviou denúncias.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
