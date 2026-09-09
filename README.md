@@ -30,6 +30,10 @@ Plataforma de denúncias com **Python + Flask + SQLite + Tailwind CSS**. Página
 │   └── templates/         # base, home, cadastro, login, recuperar, denuncias
 ├── db/app.db              # banco SQLite (criado automaticamente)
 ├── run.py                 # ponto de entrada
+├── Dockerfile             # build da imagem do container
+├── docker-compose.yml     # orquestra o container (porta 5000 + volumes)
+├── requirements.txt       # dependências (raiz, p/ Docker)
+├── DOCUMENTACAO.md        # documentação técnica completa
 └── README.md
 ```
 
@@ -44,6 +48,19 @@ python run.py
 ```
 
 Abrir no navegador: <http://127.0.0.1:5000/home>
+
+## Como rodar com Docker
+
+```powershell
+cd "C:\Users\aline\OneDrive\Documentos\Default Project"
+docker compose up -d --build
+```
+
+Abrir no navegador: <http://127.0.0.1:5000/home>
+
+- Parar: `docker compose down`
+- Ver logs: `docker compose logs -f`
+- O banco (`db/`) e as provas (`backend/uploads/`) são **volumes** persistentes entre execuções.
 
 ## Fluxo
 
