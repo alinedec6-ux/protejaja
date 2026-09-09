@@ -172,13 +172,18 @@ def create_app():
         usuario = db.usuario_por_id(session["user_id"])
 
         if request.method == "POST":
+            assunto = (request.form.get("assunto") or "").strip()
             categoria = (request.form.get("categoria") or "Geral").strip()
             descricao = (request.form.get("descricao") or "").strip()
             anexo = request.files.get("anexo")
             nome_anexo = None
 
-            if not descricao:
+            if not assunto:
+                flash("Informe sobre o que você está denunciando.", "error")
+            elif not descricao:
                 flash("Descreva a denúncia antes de enviar.", "error")
+            elif contem_ofensa(assunto):
+                flash("O assunto contém palavras ofensivas.", "error")
             elif contem_ofensa(descricao):
                 flash("A denúncia contém palavras ofensivas e não foi enviada.", "error")
             else:
@@ -195,7 +200,13 @@ def create_app():
                         anexo.save(os.path.join(UPLOAD_DIR, nome_seguro))
 
                 if not anexo_invalido:
-                    db.criar_denuncia(usuario["id"], categoria, sanitizar(descricao), nome_anexo)
+                    db.criar_denuncia(
+                        usuario["id"],
+                        sanitizar(assunto),
+                        categoria,
+                        sanitizar(descricao),
+                        nome_anexo,
+                    )
                     flash("Denúncia enviada com sucesso!", "success")
 
         denuncias = db.denuncias_do_usuario(usuario["id"])

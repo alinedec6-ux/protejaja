@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS reports (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
+    assunto TEXT NOT NULL DEFAULT 'Sem assunto',
     categoria TEXT NOT NULL DEFAULT 'Geral',
     descricao TEXT NOT NULL,
     anexo TEXT,
@@ -41,6 +42,13 @@ def init_db():
     os.makedirs(UPLOAD_DIR, exist_ok=True)
     conn = get_connection()
     conn.executescript(SCHEMA)
+
+    colunas_reports = {
+        r[1] for r in conn.execute("PRAGMA table_info(reports)").fetchall()
+    }
+    if "assunto" not in colunas_reports:
+        conn.execute("ALTER TABLE reports ADD COLUMN assunto TEXT NOT NULL DEFAULT 'Sem assunto'")
+
     conn.commit()
     conn.close()
 
@@ -98,11 +106,12 @@ def atualizar_senha(user_id, senha_hash):
     conn.close()
 
 
-def criar_denuncia(user_id, categoria, descricao, anexo):
+def criar_denuncia(user_id, assunto, categoria, descricao, anexo):
     conn = get_connection()
     cur = conn.execute(
-        "INSERT INTO reports (user_id, categoria, descricao, anexo) VALUES (?, ?, ?, ?)",
-        (user_id, categoria, descricao, anexo),
+        "INSERT INTO reports (user_id, assunto, categoria, descricao, anexo) "
+        "VALUES (?, ?, ?, ?, ?)",
+        (user_id, assunto, categoria, descricao, anexo),
     )
     conn.commit()
     report_id = cur.lastrowid
@@ -113,7 +122,7 @@ def criar_denuncia(user_id, categoria, descricao, anexo):
 def denuncias_do_usuario(user_id):
     conn = get_connection()
     rows = conn.execute(
-        "SELECT id, categoria, descricao, anexo, criado_em "
+        "SELECT id, assunto, categoria, descricao, anexo, criado_em "
         "FROM reports WHERE user_id = ? ORDER BY id DESC",
         (user_id,),
     ).fetchall()

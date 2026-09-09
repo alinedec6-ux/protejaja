@@ -12,6 +12,13 @@
     <div class="card mb-8">
         <form method="POST" action="/denuncias" enctype="multipart/form-data" class="space-y-4">
             <div>
+                <label for="assunto" class="campo-label">Sobre o que você está denunciando? *</label>
+                <input type="text" id="assunto" name="assunto" required
+                       class="campo" placeholder="Ex.: local sem acesso, produto vencido, serviço irregular..."
+                       value="{{ request.form.get('assunto', '') }}">
+            </div>
+
+            <div>
                 <label for="categoria" class="campo-label">Categoria</label>
                 <select id="categoria" name="categoria" class="campo bg-white">
                     <option>Geral</option>
@@ -51,6 +58,7 @@
                             <span class="badge-rosa">{{ d.categoria }}</span>
                             <span class="text-xs text-slate-400">{{ d.criado_em }}</span>
                         </div>
+                        <div class="text-slate-900 font-bold">{{ d.assunto }}</div>
                         <p class="text-sm text-slate-700">{{ d.descricao }}</p>
                         {% if d.anexo %}
                             <a href="/uploads/{{ d.anexo }}" target="_blank"
