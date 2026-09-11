@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Diferencial | ProtejaJA{% endblock %}
+
+{% block content %}
+<section class="w-full max-w-4xl mx-auto py-10 px-4">
+    <div class="text-center mb-10">
+        <span class="badge-rosa inline-block mb-4">O que só o ProtejaJA tem</span>
+        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 mb-4">
+            Proteja<span class="text-rose-600">JA</span>
+        </h1>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+        <div class="card">
+            <div class="text-2xl mb-1">🛡️</div>
+            <div class="stat-label">Filtro antiofensa</div>
+            <p class="text-sm text-slate-600">O Reclame Aqui não filtra a linguagem. Aqui, xingamentos são bloqueados para manter o respeito.</p>
+        </div>
+        <div class="card">
+            <div class="text-2xl mb-1">📎</div>
+            <div class="stat-label">Anexo de prova</div>
+            <p class="text-sm text-slate-600">O Reclame Aqui é texto + avaliação. Aqui você anexa a foto ou o PDF do produto vencido (máx. 5 MB).</p>
+        </div>
+        <div class="card">
+            <div class="text-2xl mb-1">🔒</div>
+            <div class="stat-label">Denúncia só para você</div>
+            <p class="text-sm text-slate-600">No Reclame Aqui a reclamação fica pública. Aqui, só você vê suas denúncias, protegidas por senha criptografada.</p>
+        </div>
+        <div class="card">
+            <div class="text-2xl mb-1">🏘️</div>
+            <div class="stat-label">Foco no bairro</div>
+            <p class="text-sm text-slate-600">O Reclame Aqui é para empresas gigantes do país. Aqui o foco é o comércio perto de você.</p>
+        </div>
+    </div>
+
+    <div class="card mb-10">
+        <div class="text-2xl mb-1">🎓</div>
+        <div class="stat-label">Bônus: propósito educativo</div>
+        <p class="text-sm text-slate-600">O ProtejaJA é um projeto para aprender a ser cidadão digital: denunciar com educação, prova e responsabilidade.</p>
+    </div>
+
+    <div class="text-center">
+        {% if user %}
+            <a href="/denuncias" class="btn-rosa btn-grande">Quero fazer uma denúncia</a>
+        {% else %}
+            <a href="/cadastro" class="btn-rosa btn-grande">Criar conta</a>
+            <a href="/login" class="btn-contorno btn-grande">Entrar</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

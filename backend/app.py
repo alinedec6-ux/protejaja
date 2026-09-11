@@ -78,6 +78,10 @@ def create_app():
     def home():
         return render_template("home.html")
 
+    @app.route("/diferencial")
+    def diferencial():
+        return render_template("diferencial.html")
+
     @app.route("/home/<path:filename>")
     def home_static(filename):
         return send_from_directory(HOME_DIR, filename)
