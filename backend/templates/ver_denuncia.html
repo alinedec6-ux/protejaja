@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes da denúncia | ProtejaJA{% endblock %}
+
+{% block content %}
+<section class="w-full max-w-2xl mx-auto py-10 px-4">
+    <div class="mb-6 flex items-center gap-2 text-sm">
+        <a href="/denuncias" class="text-slate-500 hover:text-rose-600">← Minhas denúncias</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-700 font-medium">#{{ denuncia.id }}</span>
+    </div>
+
+    <div class="card mb-4">
+        <div class="flex items-center justify-between mb-3">
+            <span class="badge-rosa">{{ denuncia.categoria }}</span>
+            <span class="text-xs text-slate-400">{{ denuncia.criado_em }}</span>
+        </div>
+
+        <h1 class="text-2xl font-extrabold text-slate-900">🏢 {{ denuncia.denunciado }}</h1>
+        <div class="text-lg font-bold text-slate-900 mt-1">{{ denuncia.assunto }}</div>
+
+        <p class="mt-4 text-slate-700 leading-relaxed whitespace-pre-line">{{ denuncia.descricao }}</p>
+
+        {% if denuncia.anexo %}
+            <div class="mt-6 border-t border-rose-100 pt-4">
+                <div class="text-sm font-bold text-slate-900 mb-2">📎 Prova anexada</div>
+                <a href="/uploads/{{ denuncia.anexo }}" target="_blank"
+                   class="btn-rosa btn-grande w-full text-center inline-block">Ver prova ({{ denuncia.anexo }})</a>
+                <p class="text-xs text-slate-400 mt-2">Abra em uma nova aba para ver o arquivo completo.</p>
+            </div>
+        {% else %}
+            <div class="mt-6 border-t border-rose-100 pt-4 text-sm text-slate-500">
+                📎 Nenhuma prova anexada a esta denúncia.
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="flex gap-3">
+        <a href="/denuncias" class="btn-contorno btn-grande flex-1 text-center">Voltar</a>
+        <a href="/denuncias" class="btn-rosa btn-grande flex-1 text-center">Nova denúncia</a>
+    </div>
+</section>
+{% endblock %}

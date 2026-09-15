@@ -222,4 +222,13 @@ def create_app():
         denuncias = db.denuncias_do_usuario(usuario["id"])
         return render_template("denuncias.html", denuncias=denuncias)
 
+    @app.route("/denuncias/<int:denuncia_id>")
+    @login_obrigatorio
+    def ver_denuncia(denuncia_id):
+        denuncia = db.denuncia_do_usuario(session["user_id"], denuncia_id)
+        if denuncia is None:
+            flash("Denúncia não encontrada.", "error")
+            return redirect(url_for("denuncias"))
+        return render_template("ver_denuncia.html", denuncia=denuncia)
+
     return app

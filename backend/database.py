@@ -122,6 +122,17 @@ def criar_denuncia(user_id, denunciado, assunto, categoria, descricao, anexo):
     return report_id
 
 
+def denuncia_do_usuario(user_id, denuncia_id):
+    conn = get_connection()
+    row = conn.execute(
+        "SELECT id, denunciado, assunto, categoria, descricao, anexo, criado_em "
+        "FROM reports WHERE id = ? AND user_id = ?",
+        (denuncia_id, user_id),
+    ).fetchone()
+    conn.close()
+    return row
+
+
 def denuncias_do_usuario(user_id):
     conn = get_connection()
     rows = conn.execute(
