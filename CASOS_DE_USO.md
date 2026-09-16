@@ -33,6 +33,12 @@
 **Lembrando:** quem **não** tem conta (Visitante) também pode passar pelo UC01 e UC02
 para virar Usuário. Só o Usuário logado acessa Denúncias.
 
+**Frase-chave do UC07 (para a apresentação):**
+
+> "Aqui a pessoa abre TODOS os detalhes da denúncia e o anexo (prova) — e só a
+> própria pessoa pode ver, pois está protegida com login."
+
+
 ## 2. Tabela dos casos de uso
 
 | Código | Caso de uso | Ator principal | Objetivo |
