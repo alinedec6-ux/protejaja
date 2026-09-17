@@ -20,6 +20,7 @@
                 {% if user %}
                     <a href="/denuncias" class="text-slate-700 hover:text-rose-600">Minhas denúncias</a>
                     <span class="hidden sm:inline text-slate-400">Olá, {{ user.nome.split(' ')[0] }}</span>
+                    <a href="/excluir-conta" class="text-xs font-semibold text-slate-500 hover:text-rose-600" title="Excluir minha conta">🗑️</a>
                     <a href="/logout" class="btn-rosa">Sair</a>
                 {% else %}
                     <a href="/login" class="text-slate-700 hover:text-rose-600">Entrar</a>

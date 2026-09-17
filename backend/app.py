@@ -231,4 +231,26 @@ def create_app():
             return redirect(url_for("denuncias"))
         return render_template("ver_denuncia.html", denuncia=denuncia)
 
+    @app.route("/excluir-conta", methods=["GET", "POST"])
+    @login_obrigatorio
+    def excluir_conta():
+        user_id = session["user_id"]
+        usuario = db.usuario_por_id(user_id)
+
+        if request.method == "POST":
+            senha = request.form.get("senha") or ""
+            if not check_password_hash(usuario["senha_hash"], senha):
+                flash("Senha incorreta. Nada foi excluído.", "error")
+            else:
+                for linha in db.anexos_do_usuario(user_id):
+                    caminho = os.path.join(UPLOAD_DIR, linha["anexo"])
+                    if os.path.exists(caminho):
+                        os.remove(caminho)
+                db.apagar_conta_completa(user_id)
+                session.clear()
+                flash("Sua conta e todos os seus dados foram excluídos definitivamente.", "success")
+                return redirect(url_for("home"))
+
+        return render_template("excluir_conta.html")
+
     return app

@@ -142,3 +142,21 @@ def denuncias_do_usuario(user_id):
     ).fetchall()
     conn.close()
     return rows
+
+
+def anexos_do_usuario(user_id):
+    conn = get_connection()
+    rows = conn.execute(
+        "SELECT anexo FROM reports WHERE user_id = ? AND anexo IS NOT NULL",
+        (user_id,),
+    ).fetchall()
+    conn.close()
+    return rows
+
+
+def apagar_conta_completa(user_id):
+    conn = get_connection()
+    conn.execute("DELETE FROM reports WHERE user_id = ?", (user_id,))
+    conn.execute("DELETE FROM users WHERE id = ?", (user_id,))
+    conn.commit()
+    conn.close()
