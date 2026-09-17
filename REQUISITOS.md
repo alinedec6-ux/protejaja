@@ -48,11 +48,14 @@ Cada item é uma **ação** que o usuário pode realizar.
 | RF08 | O sistema deve **listar as denúncias** de cada usuário. | Tela Denúncias |
 | RF09 | O sistema deve **bloquear palavras ofensivas** (nome, endereço, denunciado, assunto e descrição). | Todas as telas |
 | RF10 | O sistema deve **exigir login** para enviar denúncia. | Tela Denúncias |
+| RF11 | O sistema deve **ver os detalhes** de uma denúncia (descrição completa + prova). | "🔎 Ver detalhes" |
+| RF12 | O sistema deve permitir **excluir a conta** definitivamente (cadastro, denúncias e provas), confirmando com senha. | 🗑️ no menu |
 
 **QUE DIZER (leia a RF06 como exemplo):**
 > "Exemplo de requisito funcional: RF06 — o usuário pode registrar uma denúncia.
-> Ele informa quem ele está denunciando — por exemplo, o Savegnago —, sobre o que é,
-> a categoria e a descrição, e ainda pode anexar uma prova."
+> Ele informa quem ele está denunciando — por exemplo, o Hipermercado —, sobre o que é,
+> a categoria e a descrição, e ainda pode anexar uma prova. E a RF12 garante que
+> o usuário pode excluir a conta sem deixar vestígio."
 
 ---
 
@@ -96,7 +99,7 @@ São as **qualidades** e **regras escondidas** do sistema. Não dá para "clicar
 
 1. "Boa noite. Eu vim explicar os requisitos do site ProtejaJA, um site de denúncias."
 2. **Mostrar a diferença:** "Funcional é o que faz; não funcional é como faz."
-3. **Ler 2 funcionais:** RF01 (cadastro) e RF06 (denúncia com o exemplo do Savegnago).
+3. **Ler 2 funcionais:** RF01 (cadastro) e RF06 (denúncia com o exemplo do Hipermercado).
 4. **Ler 2 não funcionais:** RNF02 (senha criptografada) e RNF05 (tema rosa centralizado).
 5. **Fechar:** "Os funcionais descrevem as telas e ações; os não funcionais garantem segurança, desempenho e boa aparência."
 
