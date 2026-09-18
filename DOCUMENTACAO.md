@@ -100,7 +100,8 @@ A tela mostra o resultado (front-end)
 - Botões: **Criar conta** e **Entrar**.
 
 ### 3.2 Cadastro
-- Campos: **nome completo, e-mail, data de nascimento, cidade, senha, endereço completo**.
+- Campos: **nome, sobrenome (separados e obrigatórios), e-mail, data de nascimento, cidade, senha, endereço completo**.
+- Exige **nome E sobrenome preenchidos** — não deixa criar conta sem os dois.
 - Senha transformada em **hash** (criptografia) antes de gravar.
 - Depois de salvar → **vai para a tela de login**.
 

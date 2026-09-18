@@ -108,20 +108,22 @@ def create_app():
     def cadastro():
         if request.method == "POST":
             nome = (request.form.get("nome") or "").strip()
+            sobrenome = (request.form.get("sobrenome") or "").strip()
             email = (request.form.get("email") or "").strip().lower()
             data_nascimento = (request.form.get("data_nascimento") or "").strip()
             cidade = (request.form.get("cidade") or "").strip()
             endereco = (request.form.get("endereco") or "").strip()
             senha = request.form.get("senha") or ""
+            nome_completo = f"{nome} {sobrenome}".strip()
 
-            if not all([nome, email, data_nascimento, cidade, endereco, senha]):
+            if not all([nome, sobrenome, email, data_nascimento, cidade, endereco, senha]):
                 flash("Preencha todos os campos do cadastro.", "error")
             elif not validar_email(email):
                 flash("Informe um e-mail válido.", "error")
             elif len(senha) < 6:
                 flash("A senha deve ter no mínimo 6 caracteres.", "error")
-            elif contem_ofensa(nome):
-                flash("O nome contém palavras ofensivas e não pode ser usado.", "error")
+            elif contem_ofensa(nome) or contem_ofensa(sobrenome):
+                flash("Nome ou sobrenome contêm palavras ofensivas e não podem ser usados.", "error")
             elif contem_ofensa(cidade) or contem_ofensa(endereco):
                 flash("Cidade ou endereço contêm palavras ofensivas.", "error")
             elif db.email_cadastrado(email):
@@ -129,7 +131,7 @@ def create_app():
             else:
                 senha_hash = generate_password_hash(senha)
                 db.criar_usuario(
-                    nome.strip(),
+                    nome_completo,
                     email,
                     data_nascimento,
                     cidade,

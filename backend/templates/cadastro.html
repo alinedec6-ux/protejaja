@@ -9,10 +9,17 @@
         <p class="text-sm text-slate-500 text-center mb-6">Preencha seus dados para começar a denunciar.</p>
 
         <form method="POST" action="/cadastro" class="space-y-4">
-            <div>
-                <label for="nome" class="campo-label">Nome completo</label>
-                <input type="text" id="nome" name="nome" required
-                       class="campo" placeholder="Seu nome completo" value="{{ request.form.get('nome', '') }}">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="nome" class="campo-label">Nome</label>
+                    <input type="text" id="nome" name="nome" required
+                           class="campo" placeholder="Seu primeiro nome" value="{{ request.form.get('nome', '') }}">
+                </div>
+                <div>
+                    <label for="sobrenome" class="campo-label">Sobrenome</label>
+                    <input type="text" id="sobrenome" name="sobrenome" required
+                           class="campo" placeholder="Seu sobrenome" value="{{ request.form.get('sobrenome', '') }}">
+                </div>
             </div>
             <div>
                 <label for="email" class="campo-label">E-mail</label>

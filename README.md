@@ -4,7 +4,7 @@ Plataforma de denúncias com **Python + Flask + SQLite + Tailwind CSS**. Página
 
 ## Funcionalidades
 
-- **Cadastro** — nome completo, e-mail, data de nascimento, cidade, endereço completo e senha.
+- **Cadastro** — nome e sobrenome (separados e obrigatórios), e-mail, data de nascimento, cidade, endereço completo e senha.
 - **Login** — com link visível para **recuperação de senha**.
 - **Recuperação de senha** — gera senha temporária validando e-mail + data de nascimento.
 - **Denúncias** — envio de descrição com **anexo de prova** (imagem, PDF ou vídeo do lugar/produto) e listagem das denúncias do usuário.

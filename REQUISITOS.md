@@ -38,7 +38,7 @@ Cada item é uma **ação** que o usuário pode realizar.
 
 | Código | Requisito Funcional | Onde acontece |
 |---|---|---|
-| RF01 | O sistema deve permitir **cadastrar usuário** (nome completo, e-mail, data de nascimento, cidade, endereço completo e senha). | Tela Cadastro |
+| RF01 | O sistema deve permitir **cadastrar usuário** com **nome e sobrenome separados (ambos obrigatórios)**, e-mail, data de nascimento, cidade, endereço completo e senha. | Tela Cadastro |
 | RF02 | O sistema deve **criptografar a senha** antes de guardar no banco. | Cadastro |
 | RF03 | O sistema deve permitir **login** com e-mail e senha. | Tela Login |
 | RF04 | O sistema deve permitir **sair da conta** (logout). | Menu |
