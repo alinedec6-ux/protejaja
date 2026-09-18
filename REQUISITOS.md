@@ -50,12 +50,15 @@ Cada item é uma **ação** que o usuário pode realizar.
 | RF10 | O sistema deve **exigir login** para enviar denúncia. | Tela Denúncias |
 | RF11 | O sistema deve **ver os detalhes** de uma denúncia (descrição completa + prova). | "🔎 Ver detalhes" |
 | RF12 | O sistema deve permitir **excluir a conta** definitivamente (cadastro, denúncias e provas), confirmando com senha. | 🗑️ no menu |
+| RF13 | O sistema deve ter um **painel do administrador** para ver as denúncias e **aprovar** ou **rejeitar** cada uma. | 🛡️ Painel admin |
+| RF14 | O sistema deve mostrar **publicamente apenas as denúncias aprovadas** (sem necessidade de login). | "Ver denúncias" |
 
 **QUE DIZER (leia a RF06 como exemplo):**
 > "Exemplo de requisito funcional: RF06 — o usuário pode registrar uma denúncia.
 > Ele informa quem ele está denunciando — por exemplo, o Hipermercado —, sobre o que é,
 > a categoria e a descrição, e ainda pode anexar uma prova. E a RF12 garante que
-> o usuário pode excluir a conta sem deixar vestígio."
+> o usuário pode excluir a conta sem deixar vestígio. Com a RF13, o administrador
+> aprova cada denúncia, e com a RF14 só as aprovadas ficam públicas."
 
 ---
 

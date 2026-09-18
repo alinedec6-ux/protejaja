@@ -1,9 +1,14 @@
 import os
 import sqlite3
 
+from werkzeug.security import generate_password_hash
+
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DB_PATH = os.path.join(BASE_DIR, "db", "app.db")
 UPLOAD_DIR = os.path.join(BASE_DIR, "backend", "uploads")
+
+ADMIN_EMAIL = "admin@protejaja.com"
+ADMIN_SENHA = "admin123"
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS users (
@@ -25,6 +30,7 @@ CREATE TABLE IF NOT EXISTS reports (
     categoria TEXT NOT NULL DEFAULT 'Geral',
     descricao TEXT NOT NULL,
     anexo TEXT,
+    status TEXT NOT NULL DEFAULT 'pendente',
     criado_em TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
@@ -51,6 +57,33 @@ def init_db():
         conn.execute("ALTER TABLE reports ADD COLUMN assunto TEXT NOT NULL DEFAULT 'Sem assunto'")
     if "denunciado" not in colunas_reports:
         conn.execute("ALTER TABLE reports ADD COLUMN denunciado TEXT NOT NULL DEFAULT ''")
+    if "status" not in colunas_reports:
+        conn.execute("ALTER TABLE reports ADD COLUMN status TEXT NOT NULL DEFAULT 'pendente'")
+
+    colunas_users = {
+        r[1] for r in conn.execute("PRAGMA table_info(users)").fetchall()
+    }
+    if "is_admin" not in colunas_users:
+        conn.execute("ALTER TABLE users ADD COLUMN is_admin INTEGER NOT NULL DEFAULT 0")
+
+    admin = conn.execute(
+        "SELECT id FROM users WHERE email = ? COLLATE NOCASE", (ADMIN_EMAIL,)
+    ).fetchone()
+    if admin is None:
+        conn.execute(
+            "INSERT INTO users (nome, email, data_nascimento, cidade, endereco, senha_hash, is_admin) "
+            "VALUES (?, ?, ?, ?, ?, ?, 1)",
+            (
+                "Administrador",
+                ADMIN_EMAIL,
+                "01/01/2000",
+                "Matão",
+                "Central",
+                generate_password_hash(ADMIN_SENHA),
+            ),
+        )
+    else:
+        conn.execute("UPDATE users SET is_admin = 1 WHERE email = ? COLLATE NOCASE", (ADMIN_EMAIL,))
 
     conn.commit()
     conn.close()
@@ -83,7 +116,7 @@ def criar_usuario(nome, email, data_nascimento, cidade, endereco, senha_hash):
 def usuario_por_email(email):
     conn = get_connection()
     row = conn.execute(
-        "SELECT id, nome, email, data_nascimento, cidade, endereco, senha_hash, criado_em "
+        "SELECT id, nome, email, data_nascimento, cidade, endereco, senha_hash, criado_em, is_admin "
         "FROM users WHERE email = ? COLLATE NOCASE",
         (email,),
     ).fetchone()
@@ -94,7 +127,7 @@ def usuario_por_email(email):
 def usuario_por_id(user_id):
     conn = get_connection()
     row = conn.execute(
-        "SELECT id, nome, email, data_nascimento, cidade, endereco, senha_hash, criado_em "
+        "SELECT id, nome, email, data_nascimento, cidade, endereco, senha_hash, criado_em, is_admin "
         "FROM users WHERE id = ?",
         (user_id,),
     ).fetchone()
@@ -160,3 +193,44 @@ def apagar_conta_completa(user_id):
     conn.execute("DELETE FROM users WHERE id = ?", (user_id,))
     conn.commit()
     conn.close()
+
+
+def promover_admin(user_id):
+    conn = get_connection()
+    conn.execute("UPDATE users SET is_admin = 1 WHERE id = ?", (user_id,))
+    conn.commit()
+    conn.close()
+
+
+def usuario_eh_admin(user_id):
+    conn = get_connection()
+    row = conn.execute("SELECT is_admin FROM users WHERE id = ?", (user_id,)).fetchone()
+    conn.close()
+    return bool(row and row["is_admin"])
+
+
+def todas_denuncias():
+    conn = get_connection()
+    rows = conn.execute(
+        "SELECT id, user_id, denunciado, assunto, categoria, descricao, anexo, status, criado_em "
+        "FROM reports ORDER BY id DESC",
+    ).fetchall()
+    conn.close()
+    return rows
+
+
+def atualizar_status_denuncia(denuncia_id, novo_status):
+    conn = get_connection()
+    conn.execute("UPDATE reports SET status = ? WHERE id = ?", (novo_status, denuncia_id))
+    conn.commit()
+    conn.close()
+
+
+def denuncias_aprovadas():
+    conn = get_connection()
+    rows = conn.execute(
+        "SELECT id, denunciado, assunto, categoria, descricao, anexo, criado_em "
+        "FROM reports WHERE status = 'aprovada' ORDER BY id DESC",
+    ).fetchall()
+    conn.close()
+    return rows

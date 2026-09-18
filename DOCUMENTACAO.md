@@ -133,6 +133,21 @@ Clicando em **"🔎 Ver detalhes"**, abre a página completa da denúncia
 - Apaga **de verdade**: cadastro, todas as denúncias e as provas do disco.
 - Depois da exclusão, o e-mail não consegue mais entrar (testado!).
 
+### 3.7 Painel do administrador (moderação)
+- Conta especial: **admin@protejaja.com** / **admin123** (criada automaticamente).
+- No menu, o link **🛡️ Painel admin** (só aparece para admin).
+- O admin vê **todas** as denúncias com status e escolhe **✅ Aprovar** ou **❌ Rejeitar**.
+
+### 3.8 Ver denúncias (página pública)
+- Link **"Ver denúncias"** no menu (funciona sem login).
+- Mostra **apenas as denúncias aprovadas** pelo admin.
+- É o ciclo: usuário denuncia → admin aprova → comunidade vê.
+
+**QUE DIZER (do painel admin):**
+> "Existe uma conta de administrador que modera as denúncias: ele aprova ou
+> rejeita cada uma. Só as aprovadas aparecem na página pública para toda a
+> comunidade ver — assim não vai denúncia ofensiva ou falsa para o ar."
+
 **QUE DIZER (da tela de denúncia):**
 > "Aqui o usuário informa quem está sendo denunciado e o que aconteceu.
 > Por exemplo: comprou um produto vencido no Hipermercado e não quiseram trocar.
@@ -209,7 +224,70 @@ docker compose up -d --build
 
 ---
 
-## 8. PLANO DA APRESENTAÇÃO (7 passos, com o que falar)
+## 8. PERGUNTAS IMPORTANTES DO PROFESSOR (LGPD, dados reais e criptografia)
+
+### 8.1 Tem segurança sobre a lei LGPD?
+
+**O que o projeto JÁ garante (princípios da LGPD aplicados):**
+
+| Princípio da LGPD | No ProtejaJA |
+|---|---|
+| **Privacidade desde a concepção** | ✅ Coleta apenas o necessário (cadastro enxuto, sem dados a mais) |
+| **Segurança dos dados** | ✅ Senha criptografada + login obrigatório |
+| **Direito de excluir os dados** | ✅ Botão 🗑️ apaga cadastro, denúncias e provas |
+| **Controle (cada um vê só o seu)** | ✅ Cada usuário vê apenas as próprias denúncias |
+| Termo de consentimento / Política de Privacidade | ⚠️ Não existe (seria exigido em empresa real) |
+| Encarregado de dados (DPO), registro de vazamento | ⚠️ Só obrigatório para empresa real, não para projeto escolar |
+
+**QUE DIZER:**
+> "Em um projeto integrador não há empresa real, então não precisamos do aparato
+> completo da LGPD, como o DPO e o termo de consentimento. Mas aplicamos os
+> princípios dela: coletamos só o necessário, criptografamos a senha e garantimos
+> o direito à exclusão — o usuário apaga a conta e todos os dados. Na vida real,
+> para colocar o site no ar, acrescentaríamos o termo de consentimento e a
+> política de privacidade."
+
+**Frase curta (se ele cobrar):**
+> "Sigo o espírito da LGPD: coleta mínima, segurança e direito de apagar os
+> dados — e o botão de excluir conta já funciona."
+
+### 8.2 Como garantir que os dados sejam reais?
+
+**Verdade técnica:** não dá para provar que uma pessoa é real só com um
+formulário. Qualquer um pode digitar "Teste Teste" e um e-mail que existe.
+
+| Método de verificação | Nível | No ProtejaJA |
+|---|---|---|
+| Confirmação por e-mail (link de verificação) | Médio | ⚠️ Não (posso implementar) |
+| Validação de CPF (checagem matemática dos dígitos) | Médio | ⚠️ Não (posso implementar) |
+| Integração com governo (validação facial/central.gov.br) | Alto | ❌ Fora do escopo escolar |
+
+**QUE DIZER:**
+> "Garantir que uma pessoa é real exige verificação externa, como confirmação por
+> e-mail ou validação de CPF. No projeto integrador, o cadastro é autodeclarado,
+> como na maioria dos sites simples. Se o escopo permitisse, o próximo passo
+> seria a confirmação por e-mail."
+
+### 8.3 Criptografia dos dados
+
+| Dado | Como está protegido |
+|---|---|
+| **Senha** | ✅ Vira um **hash** com **scrypt** (Werkzeug do Flask) — nunca fica em texto puro |
+| **Conexão (transporte)** | ⚠️ Site roda em `localhost`; o HTTPS existe quando vai para a internet |
+| **Provas/anexos** | ✅ Ficam no disco do servidor, acessíveis só com login |
+
+**QUE DIZER:**
+> "As senhas nunca são armazenadas em texto puro: usamos scrypt, que transforma
+> a senha em um hash irreversível. Se o banco vazar, a senha não vaza — só o hash,
+> que não dá para transformar de volta em senha."
+
+**Truque da bateria (para não confundir):**
+- **Hash** = senha virada em "embaralhado" que não volta (é só um sentido).
+- **HTTPS** = protege o caminho até o servidor (só quando o site está na internet).
+
+---
+
+## 9. PLANO DA APRESENTAÇÃO (7 passos, com o que falar)
 
 1. **Abrir** a Home → "Este é o ProtejaJA, site de denúncias."
 2. **Cadastrar** um usuário → "Preencho nome, data de nascimento, cidade e endereço." (mostrar que foi para o login)
@@ -221,7 +299,7 @@ docker compose up -d --build
 
 ---
 
-## 9. COMO RODAR (se precisar demonstrar)
+## 10. COMO RODAR (se precisar demonstrar)
 
 ```powershell
 docker compose up -d --build
@@ -230,7 +308,7 @@ Abrir: http://127.0.0.1:5000/home
 
 ---
 
-## 10. DICAS PARA QUEM TEM TDAH (para você)
+## 11. DICAS PARA QUEM TEM TDAH (para você)
 
 - Explique a **ordem da história**: cadastro → login → denúncia → segurança.
 - Não decore código: decore os **4 cartões** (o que é, como fala com o banco, as telas, a segurança).

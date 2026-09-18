@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Denúncias públicas | ProtejaJA{% endblock %}
+
+{% block content %}
+<section class="w-full max-w-2xl mx-auto py-10 px-4">
+    <h1 class="text-2xl font-extrabold text-slate-900 text-center mb-1">Denúncias aprovadas</h1>
+    <p class="text-sm text-slate-500 text-center mb-6">
+        Denúncias que passaram pela aprovação do administrador. Veja o que a comunidade registrou.
+    </p>
+
+    {% if denuncias %}
+        <ul class="space-y-4">
+            {% for d in denuncias %}
+                <li class="border border-rose-100 rounded-xl p-4 bg-white">
+                    <div class="flex items-center justify-between gap-3 mb-1">
+                        <span class="badge-rosa">{{ d.categoria }}</span>
+                        <span class="text-xs text-slate-400">{{ d.criado_em }}</span>
+                    </div>
+                    <div class="text-slate-900 font-extrabold">🏢 {{ d.denunciado }}</div>
+                    <div class="text-slate-900 font-bold">{{ d.assunto }}</div>
+                    <p class="text-sm text-slate-700">{{ d.descricao }}</p>
+                    {% if d.anexo %}
+                        <a href="/uploads/{{ d.anexo }}" target="_blank"
+                           class="inline-flex items-center gap-1 text-xs font-semibold text-rose-600 hover:text-rose-700 mt-2">
+                            📎 Ver anexo ({{ d.anexo }})
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="card text-center">
+            <p class="text-slate-500">Ainda não há denúncias aprovadas.</p>
+            <p class="text-xs text-slate-400 mt-2">As denúncias aprovadas pelo administrador aparecem aqui.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

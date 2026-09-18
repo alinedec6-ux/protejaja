@@ -44,6 +44,20 @@ def login_obrigatorio(visao):
     return envolvida
 
 
+def admin_obrigatorio(visao):
+    @wraps(visao)
+    def envolvida(*args, **kwargs):
+        if "user_id" not in session:
+            flash("Faça login para acessar o painel.", "error")
+            return redirect(url_for("login"))
+        if not db.usuario_eh_admin(session["user_id"]):
+            flash("Esta página é exclusiva do administrador.", "error")
+            return redirect(url_for("home"))
+        return visao(*args, **kwargs)
+
+    return envolvida
+
+
 def validar_email(email):
     return re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email) is not None
 
@@ -221,6 +235,31 @@ def create_app():
 
         denuncias = db.denuncias_do_usuario(usuario["id"])
         return render_template("denuncias.html", denuncias=denuncias)
+
+    @app.route("/denuncias-publicas")
+    def denuncias_publicas():
+        denuncias = db.denuncias_aprovadas()
+        return render_template("denuncias_publicas.html", denuncias=denuncias)
+
+    @app.route("/admin")
+    @admin_obrigatorio
+    def painel_admin():
+        denuncias = db.todas_denuncias()
+        return render_template("admin.html", denuncias=denuncias)
+
+    @app.route("/admin/aprovar/<int:denuncia_id>")
+    @admin_obrigatorio
+    def aprovar_denuncia(denuncia_id):
+        db.atualizar_status_denuncia(denuncia_id, "aprovada")
+        flash("Denúncia aprovada e publicada.", "success")
+        return redirect(url_for("painel_admin"))
+
+    @app.route("/admin/rejeitar/<int:denuncia_id>")
+    @admin_obrigatorio
+    def rejeitar_denuncia(denuncia_id):
+        db.atualizar_status_denuncia(denuncia_id, "rejeitada")
+        flash("Denúncia rejeitada.", "error")
+        return redirect(url_for("painel_admin"))
 
     @app.route("/denuncias/<int:denuncia_id>")
     @login_obrigatorio
