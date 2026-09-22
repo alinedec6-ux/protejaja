@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Diagrama de Classes - Carro</title>
+<style>
+  body { font-family: Arial, Helvetica, sans-serif; margin: 24px; background: #fff; }
+  h1 { font-size: 22px; color: #333; text-align: center; margin-bottom: 4px; }
+  .legenda { text-align: center; color: #777; font-size: 13px; margin-bottom: 24px; }
+  .container { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .classe {
+    border: 2px solid #333;
+    border-radius: 6px;
+    width: 250px;
+    background: #fff;
+    font-size: 14px;
+  }
+  .classe .nome {
+    background: #dbeafe;
+    border-bottom: 2px solid #333;
+    text-align: center;
+    font-weight: bold;
+    padding: 8px;
+    font-size: 16px;
+  }
+  .classe .sec {
+    border-bottom: 1px solid #333;
+    text-align: center;
+    font-weight: bold;
+    background: #f1f5f9;
+    padding: 4px;
+    font-size: 12px;
+  }
+  .classe ul { list-style: none; margin: 0; padding: 8px 10px; }
+  .classe li { padding: 2px 0; }
+  .seta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    color: #555;
+  }
+  .seta .linha { width: 40px; height: 2px; background: #333; margin: 4px 0 2px; }
+  .seta .diamante { font-size: 22px; line-height: 1; }
+  .mult { font-size: 11px; color: #333; margin-top: 2px; }
+</style>
+</head>
+<body>
+  <h1>Diagrama de Classes — Funcionalidade de um Carro</h1>
+  <p class="legenda">UML — associação "possui" entre Carro, Motor e Roda</p>
+
+  <div class="container">
+    <div class="classe">
+      <div class="nome">Carro</div>
+      <div class="sec">Atributos</div>
+      <ul>
+        <li>− marca : String</li>
+        <li>− modelo : String</li>
+        <li>− ano : int</li>
+        <li>− cor : String</li>
+        <li>− velocidade : int</li>
+      </ul>
+      <div class="sec">Métodos</div>
+      <ul>
+        <li>+ ligar() : void</li>
+        <li>+ acelerar() : void</li>
+        <li>+ frear() : void</li>
+        <li>+ buzinar() : void</li>
+        <li>+ desligar() : void</li>
+      </ul>
+    </div>
+
+    <div class="seta">
+      <div class="mult">possui 1</div>
+      <div class="diamante">◆</div>
+      <div class="linha"></div>
+      <div class="mult">*</div>
+    </div>
+
+    <div class="classe">
+      <div class="nome">Motor</div>
+      <div class="sec">Atributos</div>
+      <ul>
+        <li>− cilin­drada : double</li>
+        <li>− combustivel : String</li>
+        <li>− ligado : boolean</li>
+      </ul>
+      <div class="sec">Métodos</div>
+      <ul>
+        <li>+ funcionar() : void</li>
+        <li>+ parar() : void</li>
+      </ul>
+    </div>
+
+    <div class="seta">
+      <div class="mult">possui 4</div>
+      <div class="diamante">◆</div>
+      <div class="linha"></div>
+      <div class="mult">*</div>
+    </div>
+
+    <div class="classe">
+      <div class="nome">Roda</div>
+      <div class="sec">Atributos</div>
+      <ul>
+        <li>− aro : int</li>
+        <li>− marca : String</li>
+      </ul>
+      <div class="sec">Métodos</div>
+      <ul>
+        <li>+ girar() : void</li>
+        <li>+ parar() : void</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="margin-top:28px; font-size:13px; color:#666; text-align:center;">
+    Interpretação: o Carro <b>possui</b> 1 Motor (composição ◆) e <b>possui</b> várias Rodas (◆).
+    O <b>+</b> significa público e o <b>−</b> significa privado.
+  </p>
+</body>
+</html>

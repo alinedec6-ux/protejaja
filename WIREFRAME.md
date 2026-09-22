@@ -1,9 +1,5 @@
 # ProtejaJA — Wireframe das Telas e Manipulação de Imagem
 
-> Trabalho para apresentar para a sala. Primeiro vem o **wireframe** (o esboço
-> de cada tela) e depois a parte de **imagem** (visual, cores e como o sistema
-> trata as imagens/provas).
-
 ---
 
 ## PARTE 1 — WIREFRAME (o esboço das telas)
@@ -11,8 +7,6 @@
 **O que é um wireframe?**
 É o **rascunho** da tela: mostra onde ficam os botões, campos e textos, antes
 de "colorir". É a planta baixa do site.
-
-> Idem celular: o wireframe é como a planta da casa; depois vem a pintura.
 
 ---
 
@@ -100,7 +94,7 @@ de "colorir". É a planta baixa do site.
 +----------------------------------------------------------+
 |  Enviar denúncia                                          |
 | --------------------------------------------------------- |
-| | Quem você está denunciando? *  [ Savegnago      ]   |   |
+| | Quem você está denunciando? *  [ Hipermercado    ]   |   |
 | | Sobre o que? *                [ Produto vencido ]   |   |
 | | Categoria [ Produto  v ]                             |  |
 | | Descrição [______________________]                   |  |
@@ -111,14 +105,14 @@ de "colorir". É a planta baixa do site.
 |  Minhas denúncias                                        |
 | --------------------------------------------------------- |
 | | (Produto) 12/09/2026                                  |  |
-| | **Savegnago**  Produto vencido                        |  |
+| | **Hipermercado**  Produto vencido                        |  |
 | | Comprei e não quiseram trocar...  📎 Ver anexo        |  |
 | --------------------------------------------------------- |
 +----------------------------------------------------------+
 ```
 
-**Esta tela tem os campos pedidos pelo professor:**
-1. Quem você está denunciando? (ex.: **Savegnago**)
+**Esta tela contém os campos do formulário de denúncia:**
+1. Quem você está denunciando? (ex.: **Hipermercado**)
 2. Sobre o que? (ex.: produto vencido)
 3. Categoria
 4. Descrição
@@ -163,10 +157,6 @@ O tema é **rosa** com **letras pretas** e **botões rosa escuro** (decisão de 
 | Borda dos cards | Rosa claro | #fecdd3 |
 | Etiqueta/categoria | Rosa claro | #ffe4e6 |
 
-**QUE DIZER:**
-> "A identidade visual usa o rosa: fundo rosa claro, botões rosa escuro e letras
-> pretas. As telas são centralizadas para facilitar a leitura."
-
 ### 2.2 Como o site "manipula" as imagens (provas de denúncia)
 
 O site recebe a imagem e faz um tratamento antes de guardar:
@@ -195,11 +185,6 @@ Salva com nome seguro em /uploads
 Denúncia lista o anexo com link "Ver anexo"
 ```
 
-**QUE DIZER:**
-> "A imagem passa por um tratamento: o navegador mostra uma prévia, o servidor
-> confere o tipo e o tamanho (5 MB no máximo), salva com nome seguro e a denúncia
-> exibe o anexo com um botão 'Ver anexo'."
-
 ### 2.3 Manipulação visual no front-end (CSS)
 
 Elementos de imagem tratados pelo `home/css/styles.css`:
@@ -211,21 +196,3 @@ Elementos de imagem tratados pelo `home/css/styles.css`:
 | Botão `.btn-rosa` com hover | Feedback visual ao passar o mouse |
 | Miniatura do anexo | `object-cover`, bordas arredondadas (na prévia) |
 | Telas centralizadas | Facilita o foco e a leitura |
-
-**QUE DIZER (para encerrar):**
-> "O wireframe mostra onde fica cada elemento; a manipulação de imagem garante
-> que as provas entrem com segurança, com prévia, tamanho controlado e
-> visual rosa padronizado."
-
----
-
-## Roteiro da apresentação (passo a passo)
-
-1. "Bom dia! Este é o wireframe do ProtejaJA, o site de denúncias."
-2. **Mostrar o wireframe da Home** → "Aqui está o menu e os botões."
-3. **Mostrar Cadastro/Login** → "Formulários simples e centralizados."
-4. **Mostrar a tela de Denúncias** → "Aqui o usuário denuncia quem, sobre o quê, e anexa a prova." (exemplo: **Savegnago**)
-5. **Falar das cores** → "Rosa claro no fundo, botão rosa escuro, letras pretas."
-6. **Falar da manipulação de imagem** → "A imagem é validada (tipo e 5 MB), vira prévia e é salva com segurança."
-
-> Dica: imprima/leia este PDF em voz alta uma vez por dia até a apresentação.

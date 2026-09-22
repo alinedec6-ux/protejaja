@@ -30,14 +30,7 @@
                  ▼
 ```
 
-**Lembrando:** quem **não** tem conta (Visitante) também pode passar pelo UC01 e UC02
-para virar Usuário. Só o Usuário logado acessa Denúncias.
-
-**Frase-chave do UC07 (para a apresentação):**
-
-> "Aqui a pessoa abre TODOS os detalhes da denúncia e o anexo (prova) — e só a
-> própria pessoa pode ver, pois está protegida com login."
-
+O participante sem conta (Visitante) pode passar pelo UC01 e UC02 para se tornar Usuário. Somente o Usuário logado acessa as denúncias.
 
 ## 2. Tabela dos casos de uso
 
@@ -57,7 +50,7 @@ para virar Usuário. Só o Usuário logado acessa Denúncias.
 ### UC04 — Enviar denúncia
 
 1. Usuário entra em **Minhas denúncias**.
-2. Informa **quem está denunciando** (ex.: Savegnago).
+2. Informa **quem está denunciando** (ex.: Hipermercado).
 3. Informa **sobre o quê** (ex.: produto vencido).
 4. Escolhe a **categoria** (produto, serviço, local...).
 5. Escreve a **descrição** (filtro antiofensa valida o texto).
