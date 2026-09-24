@@ -4,6 +4,16 @@ Projeto integrador de plataforma de denúncias. Este documento descreve a visão
 
 ---
 
+## Resumo Executivo da Sprint
+
+Na sprint atual, o ProtejaJA avançou em três frentes:
+
+1. **Segurança**: o cadastro exige nome e sobrenome separados, e a exclusão de conta remove definitivamente cadastro, denúncias e provas.
+2. **Moderação**: o painel do administrador permite aprovar ou rejeitar cada denúncia; somente as aprovadas são publicadas na página pública.
+3. **Documentação**: requisitos funcionais (RF01–RF14) e não funcionais (RNF01–RNF09), casos de uso (UC01–UC08) e wireframes atualizados e entregues em PDF.
+
+---
+
 ## 1. Visão Geral
 
 **ProtejaJA** é uma aplicação web de denúncias. O usuário cria uma conta, realiza login e registra uma denúncia contra um estabelecimento, empresa ou pessoa, com a possibilidade de anexar uma prova (imagem, PDF ou vídeo). As denúncias passam por um processo de moderação do administrador antes de serem publicadas.
