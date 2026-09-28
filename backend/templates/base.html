@@ -3,58 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}ProtejaJA{% endblock %}</title>
+    <title>{% block title %}ProtejaJá // Plataforma Cidadã de Denúncias Seguras{% endblock %}</title>
+    
+    <!-- Metadados de SEO & Otimização para Motores Generativos (GEO / IAO) -->
+    <meta name="description" content="{% block description %}ProtejaJá é a plataforma pioneira de cidadania digital e denúncias seguras com análise criteriosa em até 24 horas, proteção de dados e verificação de provas.{% endblock %}">
+    <meta name="keywords" content="denúncias seguras, cidadania digital, defesa do consumidor, análise de conformidade, moderação em 24h, proteção de dados, moderação ética, canal de denúncias">
+    <meta name="author" content="ProtejaJá">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ request.base_url }}">
+    <meta name="theme-color" content="#ff007f">
+
+    <!-- OpenGraph (Facebook, WhatsApp, LinkedIn, Perplexity) -->
+    <meta property="og:site_name" content="ProtejaJá">
+    <meta property="og:title" content="{% block og_title %}ProtejaJá // Plataforma Cidadã de Denúncias Seguras{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Registre ocorrências com provas verificadas, privacidade absoluta e análise de conformidade em até 24h.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.base_url }}">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:image" content="{{ url_for('home_static', filename='img/og-preview.png', _external=True) }}">
+
+    <!-- Twitter Cards (X, Copilot, ChatGPT) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}ProtejaJá // Tecnologia a Serviço da Cidadania{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Sistema de registro de ocorrências comunitárias e proteção cidadã com análise em até 24 horas.{% endblock %}">
+
+    <!-- Dados Estruturados Schema.org JSON-LD para IA e Mecanismos de Busca -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "{{ request.host_url }}#organization",
+          "name": "ProtejaJá",
+          "url": "{{ request.host_url }}",
+          "description": "Plataforma de utilidade pública e cidadania digital para registro, mediação e verificação de conformidade de denúncias comunitárias em até 24h.",
+          "knowsAbout": ["Cidadania Digital", "Direito do Consumidor", "Auditoria de Denúncias", "Moderação Comunitária", "Privacidade de Dados"]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "{{ request.host_url }}#website",
+          "url": "{{ request.host_url }}",
+          "name": "ProtejaJá",
+          "publisher": {"@id": "{{ request.host_url }}#organization"},
+          "inLanguage": "pt-BR"
+        }
+      ]
+    }
+    </script>
+    {% block json_ld %}{% endblock %}
+
+    <!-- Tailwind CSS (utilitários de layout) & Folha de Estilos Cyber-Tech -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('home_static', filename='css/styles.css') }}">
 </head>
-<body class="pagina-rosa text-slate-900 antialiased min-h-screen flex flex-col">
+<body class="pagina-cyber min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
 
-    <nav class="bg-white/70 backdrop-blur border-b border-rose-100 sticky top-0 z-20">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a href="/home" class="text-xl font-extrabold text-rose-600 tracking-tight">Proteja<span class="text-slate-900">JA</span></a>
+    <!-- HEADER & NAVEGAÇÃO SUPERIOR -->
+    <header class="cyber-nav sticky top-0 z-40">
+        <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between" aria-label="Navegação Principal">
+            <a href="/home" class="flex items-center gap-2 group text-xl font-extrabold tracking-tight text-white focus:outline-none focus:ring-2 focus:ring-rose-500 rounded-lg p-1">
+                <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white text-base shadow-[0_0_15px_rgba(255,0,127,0.5)]">
+                    🛡️
+                </span>
+                <span class="tracking-wider">Proteja<span class="text-rose-500 brand-glow">JÁ</span></span>
+                <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30 hidden sm:inline-block">Oficial</span>
+            </a>
 
-            <div class="flex items-center gap-3 text-sm font-medium">
-                <a href="/home" class="text-slate-700 hover:text-rose-600">Home</a>
-                <a href="/diferencial" class="text-slate-700 hover:text-rose-600">Diferencial</a>
-                <a href="/denuncias-publicas" class="text-slate-700 hover:text-rose-600">Ver denúncias</a>
+            <div class="flex items-center gap-2 sm:gap-4 text-sm font-semibold">
+                <a href="/home" class="text-slate-300 hover:text-rose-400 transition-colors px-2 py-1">Início</a>
+                <a href="/diferencial" class="text-slate-300 hover:text-rose-400 transition-colors px-2 py-1">Diferencial</a>
+                <a href="/denuncias-publicas" class="text-slate-300 hover:text-rose-400 transition-colors px-2 py-1">Denúncias Públicas</a>
+                <a href="/home#telefones-uteis" class="text-slate-300 hover:text-rose-400 transition-colors px-2 py-1 flex items-center gap-1">📞 Números Úteis</a>
 
                 {% if user %}
                     {% if user.is_admin %}
-                        <a href="/admin" class="text-slate-700 hover:text-rose-600 font-semibold">🛡️ Painel admin</a>
+                        <a href="/admin" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 transition-all font-mono text-xs shadow-[0_0_10px_rgba(245,158,11,0.2)]">
+                            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                            🛡️ Painel Admin
+                        </a>
                     {% endif %}
-                    <a href="/denuncias" class="text-slate-700 hover:text-rose-600">Minhas denúncias</a>
-                    <span class="hidden sm:inline text-slate-400">Olá, {{ user.nome.split(' ')[0] }}</span>
-                    <a href="/excluir-conta" class="text-xs font-semibold text-slate-500 hover:text-rose-600" title="Excluir minha conta">🗑️</a>
-                    <a href="/logout" class="btn-rosa">Sair</a>
+                    <a href="/denuncias" class="text-slate-300 hover:text-rose-400 transition-colors px-2 py-1">Minhas denúncias</a>
+                    <span class="hidden md:inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                        {{ user.nome.split(' ')[0] }}
+                    </span>
+                    <a href="/excluir-conta" class="text-slate-500 hover:text-rose-400 transition-colors p-1" title="Excluir conta definitivamente">🗑️</a>
+                    <a href="/logout" class="btn-cyber-outline btn-pequeno">Sair</a>
                 {% else %}
-                    <a href="/login" class="text-slate-700 hover:text-rose-600">Entrar</a>
-                    <a href="/cadastro" class="btn-rosa">Cadastrar</a>
+                    <a href="/login" class="text-slate-300 hover:text-rose-400 transition-colors px-2 py-1">Entrar</a>
+                    <a href="/cadastro" class="btn-cyber-primary btn-pequeno">Cadastrar</a>
                 {% endif %}
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
+    <!-- MENSAGENS FLASH DO SISTEMA -->
     {% with mensagens = get_flashed_messages(with_categories=true) %}
         {% if mensagens %}
-            <div class="max-w-6xl mx-auto px-4 w-full">
+            <aside class="max-w-4xl mx-auto px-4 w-full mt-4" aria-live="polite">
                 {% for categoria, mensagem in mensagens %}
                     <div class="alert alert-{{ categoria }}">
-                        {{ mensagem }}
+                        <span>{{ mensagem }}</span>
                     </div>
                 {% endfor %}
-            </div>
+            </aside>
         {% endif %}
     {% endwith %}
 
-    <main class="flex-1 flex flex-col items-center justify-center w-full px-4">
+    <!-- CONTEÚDO PRINCIPAL SEMÂNTICO -->
+    <main class="flex-1 flex flex-col items-center justify-start w-full px-4 py-6" id="mainContent">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="border-t border-rose-100 bg-white/50 mt-8">
-        <div class="max-w-6xl mx-auto px-4 py-6 text-sm text-slate-500 text-center">
-            ProtejaJA · Flask + SQLite + Tailwind CSS · Projeto Integrador
+    <!-- RODAPÉ INSTITUCIONAL SEMÂNTICO -->
+    <footer class="border-t border-slate-800 bg-slate-950/80 py-8 text-center text-xs text-slate-500">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p><strong>ProtejaJá</strong> &bull; Sistema Cidadão de Proteção Comunitária e Denúncias Seguras &bull; 2026</p>
+            <div class="flex items-center gap-4 text-slate-400">
+                <a href="/home#telefones-uteis" class="hover:text-rose-400">Telefones de Emergência</a>
+                <a href="/diferencial" class="hover:text-rose-400">Sobre o Projeto</a>
+                <a href="/denuncias-publicas" class="hover:text-rose-400">Feed Comunitário</a>
+                <a href="/robots.txt" class="hover:text-rose-400">Robots</a>
+                <a href="/sitemap.xml" class="hover:text-rose-400">Sitemap</a>
+            </div>
         </div>
     </footer>
+
+    <!-- STICKY PERSISTENT FOOTER TICKER // RADAR EM TEMPO REAL -->
+    <aside class="sticky-news-ticker" id="stickyNewsTicker" aria-label="Radar de Notícias e Alertas em Tempo Real">
+        <div class="ticker-radar-badge">
+            <span class="radar-pulse-dot"></span>
+            <span>RADAR AO VIVO</span>
+        </div>
+        <div class="ticker-viewport">
+            <div class="ticker-track" id="tickerTrack">
+                <!-- Populado dinamicamente via home.js com dados de /api/v1/noticias -->
+                <span class="ticker-item">
+                    <span class="ticker-item-tag">RADAR</span>
+                    <span>ProtejaJá Operacional // Denúncias analisadas e postadas em até 24 horas</span>
+                    <span class="ticker-item-time">Ativo</span>
+                </span>
+            </div>
+        </div>
+    </aside>
 
     <script src="{{ url_for('home_static', filename='js/home.js') }}"></script>
 </body>

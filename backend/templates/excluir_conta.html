@@ -1,42 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}Excluir conta | ProtejaJA{% endblock %}
+{% block title %}Exclusão Definitiva de Dados // ProtejaJá{% endblock %}
 
 {% block content %}
-<section class="w-full max-w-xl mx-auto py-10 px-4">
-    <h1 class="text-2xl font-extrabold text-slate-900 text-center mb-2">🗑️ Excluir minha conta</h1>
-    <p class="text-sm text-slate-600 text-center mb-6">
-        Esta ação é definitiva.
-    </p>
-
-    <div class="card border-red-200">
-        <p class="text-sm text-slate-700 leading-relaxed mb-4">
-            Ao excluir, serão apagados <b>de verdade</b> (sem deixar vestígio):
-        </p>
-        <ul class="text-sm text-slate-700 space-y-2 mb-6 list-none">
-            <li>🗺️ <b>Seus dados de cadastro</b> (nome, e-mail, endereço, senha)</li>
-            <li>📋 <b>Todas as suas denúncias</b></li>
-            <li>📎 <b>As provas anexadas</b> (arquivos do disco)</li>
-        </ul>
+<section class="w-full max-w-md mx-auto py-10">
+    <div class="card-cyber border-red-500/40">
+        <div class="text-center mb-6">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono mb-2 uppercase">
+                Direito ao Esquecimento &bull; LGPD
+            </span>
+            <h1 class="text-2xl font-extrabold text-white">Excluir Conta e Dados</h1>
+            <p class="text-xs text-slate-400 mt-1">
+                Atenção: esta ação é irreversível. Todas as suas ocorrências, anexos e dados cadastrais serão expurgados do banco de dados.
+            </p>
+        </div>
 
         <form method="POST" action="/excluir-conta" class="space-y-4">
             <div>
-                <label for="senha" class="campo-label">Digite sua senha para confirmar *</label>
-                <input type="password" id="senha" name="senha" required class="campo" placeholder="••••••••">
+                <label for="senha" class="campo-label text-red-300">Confirme sua senha para validar o expurgo *</label>
+                <input type="password" id="senha" name="senha" required autocomplete="current-password"
+                       class="campo border-red-500/40 focus:border-red-500" placeholder="Digite sua senha atual">
             </div>
 
-            <button type="submit" class="btn-rosa btn-grande w-full">Excluir tudo definitivamente</button>
+            <button type="submit" class="w-full py-3 px-4 rounded-xl bg-red-600/80 hover:bg-red-600 text-white font-bold text-sm tracking-wide transition-all shadow-[0_0_15px_rgba(220,38,38,0.4)]">
+                🗑️ Confirmar Exclusão Permanente
+            </button>
         </form>
 
-        <p class="text-xs text-slate-400 mt-4">
-            Dica para testar: crie uma conta de teste com o e-mail "teste@teste.com".
-            Depois que excluir, tente fazer login com ela — vai dar erro, porque o
-            cadastro foi apagado por inteiro.
-        </p>
-    </div>
-
-    <div class="text-center mt-6">
-        <a href="/denuncias" class="btn-contorno btn-grande">↩ Cancelar e voltar</a>
+        <div class="mt-6 pt-4 border-t border-slate-800 text-center text-xs">
+            <a href="/denuncias" class="text-slate-400 hover:text-white underline">Cancelar e voltar</a>
+        </div>
     </div>
 </section>
 {% endblock %}

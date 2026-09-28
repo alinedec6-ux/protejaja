@@ -1,62 +1,156 @@
 {% extends "base.html" %}
 
-{% block title %}Cadastro | ProtejaJA{% endblock %}
+{% block title %}Cadastro Cidadão // ProtejaJá{% endblock %}
 
 {% block content %}
-<section class="w-full max-w-md mx-auto py-10">
-    <div class="card">
-        <h1 class="text-2xl font-extrabold text-slate-900 text-center mb-1">Criar conta</h1>
-        <p class="text-sm text-slate-500 text-center mb-6">Preencha seus dados para começar a denunciar.</p>
+<section class="w-full max-w-xl mx-auto py-8">
+    <div class="card-cyber">
+        <div class="text-center mb-6">
+            <span class="badge-neon-pink mb-2">Novo Usuário</span>
+            <h1 class="text-2xl font-extrabold text-white">Criar Conta Cidadã</h1>
+            <p class="text-xs text-slate-400 mt-1">
+                Seus dados serão protegidos por criptografia irreversível e não serão divulgados publicamente.
+            </p>
+        </div>
 
-        <form method="POST" action="/cadastro" class="space-y-4">
+        <form method="POST" action="/cadastro" class="space-y-4" id="formCadastro">
+            <!-- NOME E SOBRENOME -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="nome" class="campo-label">Nome</label>
+                    <label for="nome" class="campo-label">Primeiro Nome *</label>
                     <input type="text" id="nome" name="nome" required
-                           class="campo" placeholder="Seu primeiro nome" value="{{ request.form.get('nome', '') }}">
+                           class="campo" placeholder="Ex.: Maria" value="{{ request.form.get('nome', '') }}">
                 </div>
                 <div>
-                    <label for="sobrenome" class="campo-label">Sobrenome</label>
+                    <label for="sobrenome" class="campo-label">Sobrenome *</label>
                     <input type="text" id="sobrenome" name="sobrenome" required
-                           class="campo" placeholder="Seu sobrenome" value="{{ request.form.get('sobrenome', '') }}">
+                           class="campo" placeholder="Ex.: Silva" value="{{ request.form.get('sobrenome', '') }}">
                 </div>
-            </div>
-            <div>
-                <label for="email" class="campo-label">E-mail</label>
-                <input type="email" id="email" name="email" required
-                       class="campo" placeholder="voce@exemplo.com" value="{{ request.form.get('email', '') }}">
-            </div>
-            <div>
-                <label for="data_nascimento" class="campo-label">Data de nascimento</label>
-                <input type="date" id="data_nascimento" name="data_nascimento" required
-                       class="campo" value="{{ request.form.get('data_nascimento', '') }}">
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label for="cidade" class="campo-label">Cidade</label>
-                    <input type="text" id="cidade" name="cidade" required
-                           class="campo" placeholder="Sua cidade" value="{{ request.form.get('cidade', '') }}">
-                </div>
-                <div>
-                    <label for="senha" class="campo-label">Senha</label>
-                    <input type="password" id="senha" name="senha" required minlength="6"
-                           class="campo" placeholder="Mínimo 6 caracteres">
-                </div>
-            </div>
-            <div>
-                <label for="endereco" class="campo-label">Endereço completo</label>
-                <input type="text" id="endereco" name="endereco" required
-                       class="campo" placeholder="Rua, número, bairro, CEP"
-                       value="{{ request.form.get('endereco', '') }}">
             </div>
 
-            <button type="submit" class="btn-rosa btn-grande w-full">Cadastrar</button>
+            <!-- EMAIL E DATA DE NASCIMENTO -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="email" class="campo-label">E-mail Pessoal *</label>
+                    <input type="email" id="email" name="email" required autocomplete="email"
+                           class="campo" placeholder="maria.silva@exemplo.com" value="{{ request.form.get('email', '') }}">
+                </div>
+                <div>
+                    <label for="data_nascimento" class="campo-label">Data de Nascimento *</label>
+                    <input type="date" id="data_nascimento" name="data_nascimento" required
+                           class="campo" value="{{ request.form.get('data_nascimento', '') }}">
+                </div>
+            </div>
+
+            <!-- CEP E BUSCA AUTOMÁTICA -->
+            <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-mono font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
+                        📍 Localização & Endereço (SP)
+                    </span>
+                    <span class="text-[10px] text-slate-500 font-mono">Busca por CEP integrada</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label for="cep" class="campo-label">CEP (Opcional)</label>
+                        <input type="text" id="cep" name="cep" maxlength="9"
+                               class="campo font-mono text-xs" placeholder="00000-000"
+                               value="{{ request.form.get('cep', '') }}">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="cidade" class="campo-label">Cidade (Região de Araraquara / Ribeirão) *</label>
+                        <select id="cidade" name="cidade" required class="campo text-xs">
+                            <option value="">Selecione sua cidade...</option>
+                            <optgroup label="📍 Região de Araraquara">
+                                <option value="Araraquara">Araraquara</option>
+                                <option value="Américo Brasiliense">Américo Brasiliense</option>
+                                <option value="Matão">Matão</option>
+                                <option value="São Carlos">São Carlos</option>
+                                <option value="Taquaritinga">Taquaritinga</option>
+                                <option value="Ibaté">Ibaté</option>
+                                <option value="Boa Esperança do Sul">Boa Esperança do Sul</option>
+                                <option value="Rincão">Rincão</option>
+                                <option value="Santa Lúcia">Santa Lúcia</option>
+                                <option value="Motuca">Motuca</option>
+                                <option value="Gavião Peixoto">Gavião Peixoto</option>
+                                <option value="Nova Europa">Nova Europa</option>
+                                <option value="Tabatinga">Tabatinga</option>
+                                <option value="Borborema">Borborema</option>
+                                <option value="Itápolis">Itápolis</option>
+                            </optgroup>
+                            <optgroup label="📍 Região de Ribeirão Preto">
+                                <option value="Ribeirão Preto">Ribeirão Preto</option>
+                                <option value="Sertãozinho">Sertãozinho</option>
+                                <option value="Cravinhos">Cravinhos</option>
+                                <option value="Jaboticabal">Jaboticabal</option>
+                                <option value="Bebedouro">Bebedouro</option>
+                                <option value="Franca">Franca</option>
+                                <option value="Batatais">Batatais</option>
+                                <option value="Serrana">Serrana</option>
+                                <option value="Jardinópolis">Jardinópolis</option>
+                                <option value="Pontal">Pontal</option>
+                                <option value="Brodowski">Brodowski</option>
+                                <option value="Monte Alto">Monte Alto</option>
+                                <option value="Pitangueiras">Pitangueiras</option>
+                                <option value="Barrinha">Barrinha</option>
+                            </optgroup>
+                            <optgroup label="📍 Outras Cidades do Estado de São Paulo">
+                                <option value="Araras">Araras</option>
+                                <option value="Rio Claro">Rio Claro</option>
+                                <option value="Campinas">Campinas</option>
+                                <option value="Bauru">Bauru</option>
+                                <option value="São Paulo">São Paulo (Capital)</option>
+                                <option value="Outra Cidade (SP)">Outra Cidade de SP</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- CAMPO SELECIONADO 'OUTRA CIDADE' -->
+                <div id="campoOutraCidade" class="hidden">
+                    <label for="cidade_outra" class="campo-label">Nome da Cidade (SP) *</label>
+                    <input type="text" id="cidade_outra" name="cidade_outra"
+                           class="campo text-xs" placeholder="Digite o nome da sua cidade">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="bairro" class="campo-label">Bairro *</label>
+                        <input type="text" id="bairro" name="bairro" required
+                               class="campo text-xs" placeholder="Ex.: Centro, Vila Xavier, Campos Elíseos..."
+                               value="{{ request.form.get('bairro', '') }}">
+                    </div>
+                    <div>
+                        <label for="logradouro" class="campo-label">Logradouro / Rua e Número *</label>
+                        <input type="text" id="logradouro" name="logradouro" required
+                               class="campo text-xs" placeholder="Ex.: Rua Nove de Julho, 1234, Apto 2B"
+                               value="{{ request.form.get('logradouro', '') }}">
+                    </div>
+                </div>
+
+                <!-- Campo hidden de fallback para manter compatibilidade absoluta -->
+                <input type="hidden" id="endereco" name="endereco" value="{{ request.form.get('endereco', '') }}">
+            </div>
+
+            <!-- SENHA -->
+            <div>
+                <label for="senha" class="campo-label">Senha de Acesso (Mínimo 6 caracteres) *</label>
+                <input type="password" id="senha" name="senha" required minlength="6" autocomplete="new-password"
+                       class="campo" placeholder="Crie uma senha forte">
+            </div>
+
+            <button type="submit" class="btn-cyber-primary btn-grande w-full mt-2 font-bold">
+                🚀 Finalizar Cadastro Protegido
+            </button>
         </form>
 
-        <p class="text-sm text-slate-600 text-center mt-6">
-            Já tem conta?
-            <a href="/login" class="font-semibold text-rose-600 hover:text-rose-700">Entrar</a>
-        </p>
+        <div class="mt-6 pt-4 border-t border-slate-800 text-center text-xs">
+            <p class="text-slate-400">
+                Já possui uma conta?
+                <a href="/login" class="text-rose-400 hover:text-rose-300 font-semibold underline">Fazer login</a>
+            </p>
+        </div>
     </div>
 </section>
 {% endblock %}

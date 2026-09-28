@@ -1,46 +1,315 @@
 {% extends "base.html" %}
 
-{% block title %}Home | ProtejaJA{% endblock %}
+{% block title %}ProtejaJá // Plataforma Cidadã de Denúncias Seguras{% endblock %}
+{% block description %}ProtejaJá é o canal oficial para registrar ocorrências na sua cidade e bairro. Relatos analisados e publicados em até 24 horas caso sigam as diretrizes comunitárias.{% endblock %}
+
+{% block json_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Quanto tempo demora para uma denúncia ser analisada e publicada?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cada denúncia registrada é avaliada pela nossa equipe e publicada no feed público em até 24 horas, desde que atenda integralmente às diretrizes da comunidade."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quando devo ligar para o 190, 193 ou SAMU 192 em vez de registrar no ProtejaJá?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "O ProtejaJá é uma plataforma comunitária de fiscalização com apuração em até 24 horas. Em situações de perigo iminente à vida, acidentes graves, crimes em andamento ou urgências médicas, ligue imediatamente para a Polícia Militar (190), Bombeiros (193) ou SAMU (192)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quais são as fotos recomendadas para anexar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "São recomendadas fotos nítidas do produto vencido ou adulterado, etiqueta com lote/data, cupom fiscal ou fachada do local. Imagens não recomendadas, memes ou fotos desconexas não são aceitas."
+      }
+    }
+  ]
+}
+</script>
+{% endblock %}
 
 {% block content %}
-<section class="w-full max-w-2xl mx-auto text-center py-10">
-    <div class="mb-8">
-        <span class="badge-rosa inline-block mb-6">Projeto Integrador</span>
-        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 mb-4">
-            Proteja<span class="text-rose-600">JA</span>
-        </h1>
-        <p class="text-lg text-slate-700 leading-relaxed">
-            Plataforma para registrar denúncias com segurança. Seus dados ficam
-            protegidos no banco, as senhas são criptografadas e cada texto é
-            filtrado contra palavras ofensivas.
-        </p>
+<!-- HERO SECTION CYBER-TECH -->
+<section class="w-full max-w-4xl mx-auto text-center py-12 sm:py-16">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-mono mb-6 uppercase tracking-wider shadow-[0_0_12px_rgba(255,0,127,0.2)]">
+        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+        Canal Oficial Cidadão &bull; Análise em até 24 Horas
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-        <div class="card">
-            <div class="text-2xl mb-1">🔒</div>
-            <div class="stat-label">Senhas criptografadas</div>
-            <p class="text-sm text-slate-600">Nunca armazenadas em texto puro.</p>
-        </div>
-        <div class="card">
-            <div class="text-2xl mb-1">🛡️</div>
-            <div class="stat-label">Filtro antiofensa</div>
-            <p class="text-sm text-slate-600">Palavras de baixo calão são bloqueadas.</p>
-        </div>
-        <div class="card">
-            <div class="text-2xl mb-1">📎</div>
-            <div class="stat-label">Anexo de prova</div>
-            <p class="text-sm text-slate-600">Envie imagem, PDF ou vídeo do lugar ou produto.</p>
-        </div>
-    </div>
+    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+        Proteja<span class="text-rose-500 brand-glow">JÁ</span>
+        <span class="block text-xl sm:text-2xl font-mono text-slate-400 font-normal mt-2">
+            A Voz da Sua Região com Seriedade e Respeito
+        </span>
+    </h1>
 
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+    <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed mb-8">
+        Registre ocorrências sobre estabelecimentos, produtos e serviços na sua cidade e bairro. Seus relatos passam por conferência prévia e <strong>são postados em até 24 horas</strong> se seguirem as diretrizes da comunidade.
+    </p>
+
+    <!-- CTAS DIRETOS -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-3">
         {% if user %}
-            <a href="/denuncias" class="btn-rosa btn-grande w-full sm:w-auto">Enviar denúncia</a>
+            <a href="/denuncias" class="btn-cyber-primary btn-grande w-full sm:w-auto">
+                ⚡ Registrar Nova Denúncia
+            </a>
+            <a href="/denuncias-publicas" class="btn-cyber-outline btn-grande w-full sm:w-auto">
+                🔍 Ver Ocorrências Aprovadas
+            </a>
         {% else %}
-            <a href="/cadastro" class="btn-rosa btn-grande w-full sm:w-auto">Criar conta</a>
-            <a href="/login" class="btn-contorno btn-grande w-full sm:w-auto">Entrar</a>
+            <a href="/denuncias" class="btn-cyber-primary btn-grande w-full sm:w-auto">
+                ⚡ Fazer Denúncia
+            </a>
+            <a href="/denuncias-publicas" class="btn-cyber-outline btn-grande w-full sm:w-auto">
+                🔍 Ver Ocorrências Aprovadas
+            </a>
         {% endif %}
+    </div>
+    {% if not user %}
+        <p class="text-xs text-slate-400 mb-14">
+            Deseja acompanhar suas denúncias? <a href="/login" class="text-rose-400 hover:text-rose-300 font-semibold underline">Entrar</a> ou <a href="/cadastro" class="text-rose-400 hover:text-rose-300 font-semibold underline">Cadastre-se</a>
+        </p>
+    {% else %}
+        <div class="mb-14"></div>
+    {% endif %}
+
+    <!-- CARDS DE DIRETRIZES E REQUISITOS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mb-16">
+        <article class="card-cyber">
+            <div class="text-3xl mb-3 text-rose-400">⏱️</div>
+            <h2 class="text-lg font-bold text-white mb-2">Análise em até 24 Horas</h2>
+            <p class="text-sm text-slate-400 leading-relaxed">
+                Toda denúncia passa por conferência atenta e, cumprindo as diretrizes, é disponibilizada publicamente para a comunidade no prazo de 24 horas.
+            </p>
+        </article>
+
+        <article class="card-cyber">
+            <div class="text-3xl mb-3 text-emerald-400">📞</div>
+            <h2 class="text-lg font-bold text-white mb-2">Telefones Úteis & Emergência</h2>
+            <p class="text-sm text-slate-400 leading-relaxed">
+                Em casos de flagrante ou perigo iminente, acione imediatamente a Polícia Militar (190), Bombeiros (193), SAMU (192) ou Procon (151).
+            </p>
+            <a href="#telefones-uteis" class="inline-flex items-center gap-1 text-xs font-mono text-emerald-400 hover:text-emerald-300 font-bold mt-2">
+                Ver lista de telefones &rarr;
+            </a>
+        </article>
+
+        <article class="card-cyber">
+            <div class="text-3xl mb-3 text-amber-400">📷</div>
+            <h2 class="text-lg font-bold text-white mb-2">Fotos & Provas Recomendadas</h2>
+            <p class="text-sm text-slate-400 leading-relaxed">
+                Envie fotos nítidas do produto, data de validade, cupom fiscal ou nota. Imagens desconexas, memes ou fotos não recomendadas não são aceitas.
+            </p>
+        </article>
+    </div>
+
+    <!-- SEÇÃO DE TELEFONES ÚTEIS E CANAIS DE EMERGÊNCIA -->
+    <section id="telefones-uteis" class="w-full mb-16 scroll-mt-24 text-left">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="text-rose-500 font-mono text-sm uppercase tracking-wider font-bold">Cidadania & Utilidade Pública</span>
+                    <span class="h-px w-12 bg-gradient-to-r from-rose-500/40 to-transparent"></span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Telefones Úteis e Canais de Emergência</h2>
+                <p class="text-sm text-slate-400">Para situações que exigem resposta imediata, acione os canais oficiais. Toque no botão para ligar:</p>
+            </div>
+            <span class="badge-neon-pink self-start sm:self-auto">Discagem Rápida</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- POLÍCIA MILITAR 190 -->
+            <div class="card-cyber flex flex-col justify-between p-4 border-rose-500/30 hover:border-rose-500 transition-all">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-2xl">🚨</span>
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-rose-500/20 text-rose-300">Emergência</span>
+                    </div>
+                    <div class="text-3xl font-black font-mono text-white tracking-wider mb-1">190</div>
+                    <h3 class="text-base font-bold text-white mb-1">Polícia Militar</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Crimes em andamento, flagrantes, ameaças, agressões e socorro policial imediato.
+                    </p>
+                </div>
+                <a href="tel:190" class="btn-cyber-primary text-center text-xs py-2 w-full font-bold flex items-center justify-center gap-1.5">
+                    📞 Ligar 190
+                </a>
+            </div>
+
+            <!-- CORPO DE BOMBEIROS 193 -->
+            <div class="card-cyber flex flex-col justify-between p-4 border-amber-500/30 hover:border-amber-500 transition-all">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-2xl">🚒</span>
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Resgate</span>
+                    </div>
+                    <div class="text-3xl font-black font-mono text-white tracking-wider mb-1">193</div>
+                    <h3 class="text-base font-bold text-white mb-1">Corpo de Bombeiros</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Incêndios, salvamentos, acidentes com presos em ferragens, vazamentos de gás e afogamentos.
+                    </p>
+                </div>
+                <a href="tel:193" class="btn-cyber-outline text-center text-xs py-2 w-full font-bold flex items-center justify-center gap-1.5 border-amber-500 text-amber-300 hover:bg-amber-500/20">
+                    📞 Ligar 193
+                </a>
+            </div>
+
+            <!-- SAMU 192 -->
+            <div class="card-cyber flex flex-col justify-between p-4 border-emerald-500/30 hover:border-emerald-500 transition-all">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-2xl">🚑</span>
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Saúde</span>
+                    </div>
+                    <div class="text-3xl font-black font-mono text-white tracking-wider mb-1">192</div>
+                    <h3 class="text-base font-bold text-white mb-1">SAMU</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Urgências e emergências médicas, infartos, traumas, paradas cardiorrespiratórias e AVC.
+                    </p>
+                </div>
+                <a href="tel:192" class="btn-cyber-outline text-center text-xs py-2 w-full font-bold flex items-center justify-center gap-1.5 border-emerald-500 text-emerald-300 hover:bg-emerald-500/20">
+                    📞 Ligar 192
+                </a>
+            </div>
+
+            <!-- PROCON SP 151 -->
+            <div class="card-cyber flex flex-col justify-between p-4 border-blue-500/30 hover:border-blue-500 transition-all">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-2xl">⚖️</span>
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">Consumidor</span>
+                    </div>
+                    <div class="text-3xl font-black font-mono text-white tracking-wider mb-1">151</div>
+                    <h3 class="text-base font-bold text-white mb-1">Procon SP</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Orientações de defesa do consumidor, preços abusivos, produtos vencidos e fraudes comerciais.
+                    </p>
+                </div>
+                <a href="tel:151" class="btn-cyber-outline text-center text-xs py-2 w-full font-bold flex items-center justify-center gap-1.5 border-blue-500 text-blue-300 hover:bg-blue-500/20">
+                    📞 Ligar 151
+                </a>
+            </div>
+
+            <!-- DEFESA CIVIL 199 -->
+            <div class="card-cyber flex flex-col justify-between p-4 border-slate-700 hover:border-slate-500 transition-all">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-2xl">🛡️</span>
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300">Prevenção</span>
+                    </div>
+                    <div class="text-3xl font-black font-mono text-white tracking-wider mb-1">199</div>
+                    <h3 class="text-base font-bold text-white mb-1">Defesa Civil</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Alagamentos, desabamentos, rachaduras estruturais, quedas de árvores e temporais.
+                    </p>
+                </div>
+                <a href="tel:199" class="btn-cyber-outline text-center text-xs py-2 w-full font-bold flex items-center justify-center gap-1.5">
+                    📞 Ligar 199
+                </a>
+            </div>
+
+            <!-- CENTRAL DA MULHER 180 -->
+            <div class="card-cyber flex flex-col justify-between p-4 border-slate-700 hover:border-slate-500 transition-all">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-2xl">🌸</span>
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-pink-500/20 text-pink-300">Apoio</span>
+                    </div>
+                    <div class="text-3xl font-black font-mono text-white tracking-wider mb-1">180</div>
+                    <h3 class="text-base font-bold text-white mb-1">Central da Mulher</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Orientação, acolhimento e denúncia anônima de violência doméstica e familiar.
+                    </p>
+                </div>
+                <a href="tel:180" class="btn-cyber-outline text-center text-xs py-2 w-full font-bold flex items-center justify-center gap-1.5">
+                    📞 Ligar 180
+                </a>
+            </div>
+
+            <!-- DISQUE DENÚNCIA 181 -->
+            <div class="card-cyber flex flex-col justify-between p-4 border-slate-700 hover:border-slate-500 transition-all">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-2xl">👁️</span>
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300">Sigiloso</span>
+                    </div>
+                    <div class="text-3xl font-black font-mono text-white tracking-wider mb-1">181</div>
+                    <h3 class="text-base font-bold text-white mb-1">Disque Denúncia SP</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Canal 100% anônimo para informar tráfico de drogas, foragidos da justiça e crimes graves.
+                    </p>
+                </div>
+                <a href="tel:181" class="btn-cyber-outline text-center text-xs py-2 w-full font-bold flex items-center justify-center gap-1.5">
+                    📞 Ligar 181
+                </a>
+            </div>
+
+            <!-- GUARDA CIVIL MUNICIPAL 153 -->
+            <div class="card-cyber flex flex-col justify-between p-4 border-slate-700 hover:border-slate-500 transition-all">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-2xl">👮</span>
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300">Municipal</span>
+                    </div>
+                    <div class="text-3xl font-black font-mono text-white tracking-wider mb-1">153</div>
+                    <h3 class="text-base font-bold text-white mb-1">Guarda Municipal (GCM)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Segurança e patrulhamento de praças, escolas, prédios públicos e apoio comunitário.
+                    </p>
+                </div>
+                <a href="tel:153" class="btn-cyber-outline text-center text-xs py-2 w-full font-bold flex items-center justify-center gap-1.5">
+                    📞 Ligar 153
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE DIRETRIZES DA COMUNIDADE & PERGUNTAS FREQUENTES -->
+    <div class="card-cyber text-left">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="text-rose-500 font-mono text-sm uppercase tracking-wider font-bold">Diretrizes da Comunidade & Dúvidas</span>
+            <span class="h-px flex-1 bg-gradient-to-r from-rose-500/40 to-transparent"></span>
+        </div>
+
+        <div class="space-y-6">
+            <div>
+                <h3 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+                    <span class="text-rose-500">Q:</span> Como funciona o prazo de até 24 horas para postagem?
+                </h3>
+                <p class="text-sm text-slate-300 pl-6 leading-relaxed">
+                    Assim que você envia a denúncia, ela entra em status de <strong>Análise</strong>. Nossa equipe confere se os fatos estão bem descritos, se o bairro/unidade foi especificado e se as provas anexadas são válidas. Se tudo estiver de acordo com as regras, ela vai ao ar no feed comunitário em no máximo 24 horas.
+                </p>
+            </div>
+
+            <div class="border-t border-slate-800/80 pt-4">
+                <h3 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+                    <span class="text-rose-500">Q:</span> Quando devo ligar para o 190, 193 ou SAMU 192 em vez do ProtejaJá?
+                </h3>
+                <p class="text-sm text-slate-300 pl-6 leading-relaxed">
+                    O ProtejaJá é uma plataforma de apuração comunitária e defesa cidadã com postagem em até 24 horas. Em situações de flagrante de crime, perigo iminente à vida, acidentes graves ou emergências médicas, acione IMEDIATAMENTE a <strong>Polícia Militar (190)</strong>, o <strong>Corpo de Bombeiros (193)</strong> ou o <strong>SAMU (192)</strong>.
+                </p>
+            </div>
+
+            <div class="border-t border-slate-800/80 pt-4">
+                <h3 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+                    <span class="text-rose-500">Q:</span> Quais fotos são recomendadas e quais são recusadas?
+                </h3>
+                <p class="text-sm text-slate-300 pl-6 leading-relaxed">
+                    <strong>Recomendadas:</strong> Fotos do produto com foco no defeito ou na data de validade vencida, comprovante de pagamento, cupom fiscal ou foto do estabelecimento com o problema visível. <br>
+                    <strong>Recusadas:</strong> Fotos borradas, fotos de pessoas sem autorização, memes, imagens da internet não relacionadas ao fato ou arquivos corrompidos.
+                </p>
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}

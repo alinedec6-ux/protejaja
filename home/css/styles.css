@@ -1,39 +1,132 @@
-.pagina-rosa {
-    background: linear-gradient(160deg, #ffe4e6 0%, #ffd6dc 45%, #fecdd3 100%);
+/* ==========================================================================
+   PROTEJAJÁ 2.0 // CYBER-TECH DESIGN SYSTEM
+   Identidade Visual: Dark Futuristic Slate + Neon Magenta / Electric Pink Glow
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+    --bg-dark: #070a12;
+    --bg-surface: #0f172a;
+    --bg-card: rgba(15, 23, 42, 0.75);
+    --border-glow: rgba(255, 0, 127, 0.28);
+    --border-glow-focus: #ff007f;
+    --neon-pink: #ff007f;
+    --neon-pink-hover: #ff3399;
+    --neon-rose: #f43f5e;
+    --neon-magenta: #d946ef;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --glow-shadow: 0 0 20px rgba(255, 0, 127, 0.35);
+    --glow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 0, 127, 0.12);
 }
 
-.pagina-rosa {
+/* Base & Reset */
+* {
+    box-sizing: border-box;
+}
+
+body.pagina-cyber {
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(255, 0, 127, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(217, 70, 239, 0.12) 0%, transparent 45%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
+    padding-bottom: 58px; /* Espaço para o Sticky Ticker não encobrir conteúdo */
 }
 
-.card {
-    background-color: #ffffff;
-    border: 1px solid #fecdd3;
+/* Navbar Futurista */
+.cyber-nav {
+    background: rgba(7, 10, 18, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-glow);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 0, 127, 0.08);
+}
+
+.brand-glow {
+    text-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
+}
+
+/* Cards com Glassmorphism e Cyber-Glow */
+.card-cyber {
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glow);
     border-radius: 1.25rem;
-    box-shadow: 0 10px 25px -5px rgba(190, 24, 93, 0.12), 0 8px 10px -6px rgba(190, 24, 93, 0.08);
+    box-shadow: var(--glow-card);
     padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-rosa {
+.card-cyber:hover {
+    border-color: rgba(255, 0, 127, 0.45);
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.85), 0 0 25px rgba(255, 0, 127, 0.22);
+}
+
+/* Botões Futuristas */
+.btn-cyber-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #be123c;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #ff007f 0%, #be123c 100%);
     color: #ffffff;
+    font-weight: 700;
+    font-size: 0.875rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+}
+
+.btn-cyber-primary:hover {
+    background: linear-gradient(135deg, #ff3399 0%, #e11d48 100%);
+    box-shadow: 0 0 25px rgba(255, 0, 127, 0.7);
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+.btn-cyber-primary:active {
+    transform: translateY(0);
+}
+
+.btn-cyber-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(255, 0, 127, 0.06);
+    color: var(--neon-pink);
+    border: 1.5px solid var(--neon-pink);
     font-weight: 600;
     font-size: 0.875rem;
     padding: 0.625rem 1.25rem;
     border-radius: 0.75rem;
-    transition: background-color 0.15s ease, transform 0.15s ease;
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.15);
+    transition: all 0.2s ease;
     cursor: pointer;
+    text-decoration: none;
 }
 
-.btn-rosa:hover {
-    background-color: #9f1239;
-}
-
-.btn-rosa:active {
-    transform: scale(0.98);
+.btn-cyber-outline:hover {
+    background: rgba(255, 0, 127, 0.18);
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+    transform: translateY(-2px);
 }
 
 .btn-grande {
@@ -41,123 +134,340 @@
     font-size: 1rem;
 }
 
-.btn-contorno {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff;
-    color: #be123c;
-    border: 1.5px solid #be123c;
-    font-weight: 600;
-    font-size: 0.875rem;
-    padding: 0.625rem 1.25rem;
-    border-radius: 0.75rem;
-    transition: background-color 0.15s ease;
-    cursor: pointer;
+.btn-pequeno {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
 }
 
-.btn-contorno:hover {
-    background-color: #fff1f2;
-}
-
+/* Campos de Formulário Cyber */
 .campo-label {
     display: block;
     font-size: 0.875rem;
-    font-weight: 500;
-    color: #1e293b;
-    margin-bottom: 0.375rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.01em;
 }
 
 .campo {
     width: 100%;
-    border: 1px solid #fda4af;
-    background-color: #fff;
+    border: 1px solid rgba(255, 0, 127, 0.25);
+    background-color: rgba(15, 23, 42, 0.85);
     border-radius: 0.75rem;
-    padding: 0.625rem 1rem;
-    font-size: 0.9rem;
-    color: #0f172a;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    padding: 0.65rem 1rem;
+    font-size: 0.92rem;
+    color: #f8fafc;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.campo::placeholder {
+    color: #64748b;
 }
 
 .campo:focus {
-    outline: none;
-    border-color: #be123c;
-    box-shadow: 0 0 0 3px rgba(190, 24, 60, 0.18);
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 3px rgba(255, 0, 127, 0.2), 0 0 15px rgba(255, 0, 127, 0.25);
+    background-color: rgba(15, 23, 42, 0.95);
 }
 
 .campo-arquivo {
     display: block;
     width: 100%;
     font-size: 0.875rem;
-    color: #475569;
-    border: 1px dashed #fda4af;
+    color: #94a3b8;
+    border: 1px dashed rgba(255, 0, 127, 0.35);
     border-radius: 0.75rem;
-    padding: 0.75rem;
-    background-color: #fff;
+    padding: 0.85rem;
+    background-color: rgba(15, 23, 42, 0.6);
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .campo-arquivo:hover {
-    border-color: #be123c;
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.15);
 }
 
-.badge-rosa {
-    display: inline-block;
-    background-color: #ffe4e6;
-    color: #9f1239;
+/* Badges e Pílulas */
+.badge-neon-pink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(255, 0, 127, 0.12);
+    color: #ff3399;
+    border: 1px solid rgba(255, 0, 127, 0.35);
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
-.stat-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #334155;
-    margin-bottom: 0.25rem;
+.badge-status-ia {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    letter-spacing: 0.03em;
 }
 
+.status-analise {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+.status-aprovado {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.status-reprovado {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.status-alerta {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    animation: pulsarAlerta 2s infinite ease-in-out;
+}
+
+@keyframes pulsarAlerta {
+    0%, 100% { box-shadow: 0 0 5px rgba(245, 158, 11, 0.2); }
+    50% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.5); }
+}
+
+/* Alertas do Sistema */
 .alert {
     border-radius: 0.75rem;
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 1.25rem;
     font-size: 0.9rem;
     margin-top: 1rem;
-    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideDownFade 0.3s ease;
 }
 
 .alert-success {
-    background-color: #ecfdf5;
-    color: #065f46;
-    border-color: #a7f3d0;
+    background-color: rgba(6, 78, 59, 0.75);
+    color: #a7f3d0;
+    border: 1px solid #059669;
+    box-shadow: 0 0 15px rgba(5, 150, 105, 0.2);
 }
 
 .alert-error {
-    background-color: #fff1f2;
-    color: #881337;
-    border-color: #fecdd3;
+    background-color: rgba(136, 19, 55, 0.75);
+    color: #fecdd3;
+    border: 1px solid #be123c;
+    box-shadow: 0 0 15px rgba(190, 24, 60, 0.3);
 }
 
-@keyframes soma-alerta {
-    from {
-        opacity: 0;
-        transform: translateY(-8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes slideDownFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.alert {
-    animation: soma-alerta 0.25s ease;
+/* ==========================================================================
+   CONTRATO DE RESPONSABILIDADE LEGAL (SCROLL-TO-AGREE)
+   ========================================================================== */
+.contrato-card {
+    background: rgba(10, 15, 28, 0.9);
+    border: 1px solid rgba(255, 0, 127, 0.3);
+    border-radius: 0.875rem;
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.08);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .alert {
-        animation: none;
-    }
-    .btn-rosa:active {
-        transform: none;
-    }
+.contrato-scrollbox {
+    max-height: 180px;
+    overflow-y: scroll;
+    padding: 0.85rem;
+    background: rgba(3, 7, 18, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #cbd5e1;
+}
+
+.contrato-scrollbox::-webkit-scrollbar {
+    width: 6px;
+}
+
+.contrato-scrollbox::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 3px;
+}
+
+.contrato-scrollbox::-webkit-scrollbar-thumb {
+    background: var(--neon-pink);
+    border-radius: 3px;
+    box-shadow: 0 0 5px var(--neon-pink);
+}
+
+.contrato-aviso-scroll {
+    font-size: 0.75rem;
+    color: #fb7185;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+.checkbox-cyber {
+    accent-color: var(--neon-pink);
+    width: 1.15rem;
+    height: 1.15rem;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   STICKY PERSISTENT FOOTER TICKER // RADAR EM TEMPO REAL
+   ========================================================================== */
+.sticky-news-ticker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: rgba(7, 10, 18, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 0, 127, 0.35);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.7), 0 0 15px rgba(255, 0, 127, 0.15);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    overflow: hidden;
+}
+
+.ticker-radar-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.25) 0%, rgba(217, 70, 239, 0.15) 100%);
+    border: 1px solid rgba(255, 0, 127, 0.4);
+    padding: 0.3rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #ff3399;
+    white-space: nowrap;
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
+    margin-right: 1.25rem;
+    flex-shrink: 0;
+}
+
+.radar-pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ff007f;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #ff007f;
+    animation: radarPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes radarPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.4; }
+}
+
+.ticker-viewport {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* Modo Estático (1-2 itens) */
+.ticker-track.static-mode {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+/* Modo Marquee Contínuo (3+ itens) */
+.ticker-track.marquee-mode {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: tickerScroll 28s linear infinite;
+}
+
+.ticker-track.marquee-mode:hover {
+    animation-play-state: paused;
+}
+
+@keyframes tickerScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #e2e8f0;
+    margin-right: 2.5rem;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.ticker-item:hover {
+    color: var(--neon-pink);
+}
+
+.ticker-item-tag {
+    background: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.ticker-item-time {
+    color: #64748b;
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* HUD Métricas Admin */
+.hud-stat-card {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 0, 127, 0.2);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.hud-stat-card:hover {
+    border-color: var(--neon-pink);
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+}
+
+.hud-stat-val {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    color: #f8fafc;
 }

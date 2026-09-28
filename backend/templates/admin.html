@@ -1,54 +1,220 @@
 {% extends "base.html" %}
 
-{% block title %}Painel do administrador | ProtejaJA{% endblock %}
+{% block title %}Painel de Moderação & Telemetria IA // ProtejaJá{% endblock %}
 
 {% block content %}
-<section class="w-full max-w-3xl mx-auto py-10 px-4">
-    <div class="flex items-center justify-between mb-2">
-        <h1 class="text-2xl font-extrabold text-slate-900">Painel do administrador 🛡️</h1>
-        <span class="badge-rosa">Moderação</span>
+<section class="w-full max-w-5xl mx-auto py-8">
+    <!-- CABEÇALHO DO PAINEL -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono mb-2 uppercase tracking-wider">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                Console Administrativo &bull; Nível CTO / Auditoria
+            </div>
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">Painel de Moderação Neural 🛡️</h1>
+            <p class="text-sm text-slate-400">
+                Audite denúncias triadas por IA, resolva incidentes em alerta e publique no feed comunitário.
+            </p>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="text-xs font-mono text-slate-400">Chave de Bot:</span>
+            <code class="px-2 py-1 bg-slate-900 border border-slate-800 rounded font-mono text-xs text-rose-400">BOT_API_KEY Ativa</code>
+        </div>
     </div>
-    <p class="text-sm text-slate-500 mb-6">
-        Aprove as denúncias para que apareçam na página pública, ou rejeite as que não seguirem as regras.
-    </p>
 
+    <!-- HUD DE MÉTRICAS EXECUTIVAS -->
+    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
+        <a href="/admin" class="hud-stat-card {% if not filtro_ativo %}border-rose-500 bg-rose-500/10{% endif %}">
+            <div class="text-xs font-mono text-slate-400 mb-1">TOTAL</div>
+            <div class="hud-stat-val text-white">{{ metricas.total }}</div>
+        </a>
+
+        <a href="/admin?status=ALERTA_REVISAO_MANUAL" class="hud-stat-card {% if filtro_ativo == 'ALERTA_REVISAO_MANUAL' %}border-amber-500 bg-amber-500/10{% endif %}">
+            <div class="text-xs font-mono text-amber-400 mb-1 flex items-center justify-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                ALERTAS
+            </div>
+            <div class="hud-stat-val text-amber-400">{{ metricas.alerta_revisao }}</div>
+        </a>
+
+        <a href="/admin?status=EM_ANALISE_IA" class="hud-stat-card {% if filtro_ativo == 'EM_ANALISE_IA' %}border-blue-500 bg-blue-500/10{% endif %}">
+            <div class="text-xs font-mono text-blue-400 mb-1">ANÁLISE IA</div>
+            <div class="hud-stat-val text-blue-400">{{ metricas.em_analise_ia }}</div>
+        </a>
+
+        <a href="/admin?status=APROVADO" class="hud-stat-card {% if filtro_ativo == 'APROVADO' %}border-green-500 bg-green-500/10{% endif %}">
+            <div class="text-xs font-mono text-green-400 mb-1">APROVADAS</div>
+            <div class="hud-stat-val text-green-400">{{ metricas.aprovados }}</div>
+        </a>
+
+        <a href="/admin?status=REPROVADO" class="hud-stat-card {% if filtro_ativo == 'REPROVADO' %}border-red-500 bg-red-500/10{% endif %}">
+            <div class="text-xs font-mono text-red-400 mb-1">REPROVADAS</div>
+            <div class="hud-stat-val text-red-400">{{ metricas.reprovados }}</div>
+        </a>
+    </div>
+
+    <!-- ABAS DE NAVEGAÇÃO DE FILTROS -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-3 mb-6 border-b border-slate-800">
+        <a href="/admin" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all {% if not filtro_ativo %}bg-rose-500 text-white shadow-[0_0_12px_rgba(255,0,127,0.4)]{% else %}text-slate-400 hover:text-white bg-slate-900/60{% endif %}">
+            📋 Todas ({{ metricas.total }})
+        </a>
+        <a href="/admin?status=ALERTA_REVISAO_MANUAL" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 {% if filtro_ativo == 'ALERTA_REVISAO_MANUAL' %}bg-amber-500 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.5)]{% else %}text-amber-400 hover:text-amber-300 bg-amber-500/10 border border-amber-500/30{% endif %}">
+            🚨 Alerta de Revisão Manual ({{ metricas.alerta_revisao }})
+        </a>
+        <a href="/admin?status=EM_ANALISE_IA" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all {% if filtro_ativo == 'EM_ANALISE_IA' %}bg-blue-600 text-white shadow-[0_0_12px_rgba(37,99,235,0.4)]{% else %}text-blue-400 hover:text-blue-300 bg-blue-500/10 border border-blue-500/30{% endif %}">
+            🤖 Em Análise IA ({{ metricas.em_analise_ia }})
+        </a>
+        <a href="/admin?status=APROVADO" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all {% if filtro_ativo == 'APROVADO' %}bg-green-600 text-white shadow-[0_0_12px_rgba(22,163,74,0.4)]{% else %}text-green-400 hover:text-green-300 bg-green-500/10 border border-green-500/30{% endif %}">
+            ✅ Aprovadas ({{ metricas.aprovados }})
+        </a>
+        <a href="/admin?status=REPROVADO" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all {% if filtro_ativo == 'REPROVADO' %}bg-red-600 text-white shadow-[0_0_12px_rgba(220,38,38,0.4)]{% else %}text-red-400 hover:text-red-300 bg-red-500/10 border border-red-500/30{% endif %}">
+            ❌ Reprovadas ({{ metricas.reprovados }})
+        </a>
+    </div>
+
+    <!-- LISTA DE DENÚNCIAS MODERÁVEIS -->
     {% if denuncias %}
-        <ul class="space-y-4">
+        <div class="space-y-6">
             {% for d in denuncias %}
-                <li class="border border-rose-100 rounded-xl p-4 bg-white">
-                    <div class="flex items-center justify-between gap-3 mb-2">
-                        <span class="badge-rosa">{{ d.categoria }}</span>
-                        <span class="text-xs text-slate-400">{{ d.criado_em }}</span>
+                <article class="card-cyber {% if d.status == 'ALERTA_REVISAO_MANUAL' %}border-amber-500/60 shadow-[0_0_20px_rgba(245,158,11,0.15)]{% endif %}">
+                    <!-- CABEÇALHO DO CARD -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span class="badge-neon-pink">{{ d.categoria }}</span>
+                            {% if d.status == 'EM_ANALISE_IA' %}
+                                <span class="badge-status-ia status-analise">🤖 Em Análise IA</span>
+                            {% elif d.status == 'ALERTA_REVISAO_MANUAL' %}
+                                <span class="badge-status-ia status-alerta">🚨 ALERTA // REQUER VALIDAÇÃO HUMANA</span>
+                            {% elif d.status == 'APROVADO' %}
+                                <span class="badge-status-ia status-aprovado">✅ Aprovado</span>
+                            {% elif d.status == 'REPROVADO' %}
+                                <span class="badge-status-ia status-reprovado">❌ Reprovado</span>
+                            {% else %}
+                                <span class="badge-status-ia status-analise">{{ d.status }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="text-xs font-mono text-slate-400">
+                            Protocolo #{{ d.id }} &bull; {{ d.criado_em }}
+                        </div>
                     </div>
-                    <div class="text-slate-900 font-extrabold">🏢 {{ d.denunciado }}</div>
-                    <div class="text-slate-900 font-bold">{{ d.assunto }}</div>
-                    <p class="text-sm text-slate-700">{{ d.descricao }}</p>
-                    {% if d.anexo %}
-                        <a href="/uploads/{{ d.anexo }}" target="_blank"
-                           class="inline-flex items-center gap-1 text-xs font-semibold text-rose-600 hover:text-rose-700 mt-2">
-                            📎 Ver anexo ({{ d.anexo }})
-                        </a>
-                    {% endif %}
 
-                    <div class="mt-3 flex flex-wrap items-center gap-2 pt-3 border-t border-rose-100">
-                        {% if d.status == 'pendente' %}
-                            <span class="text-xs font-semibold bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">⏳ Pendente</span>
-                            <a href="/admin/aprovar/{{ d.id }}" class="btn-rosa btn-grande">✅ Aprovar</a>
-                            <a href="/admin/rejeitar/{{ d.id }}" class="btn-contorno btn-grande">❌ Rejeitar</a>
-                        {% elif d.status == 'aprovada' %}
-                            <span class="text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded-full">✅ Aprovada</span>
-                            <a href="/admin/rejeitar/{{ d.id }}" class="btn-contorno btn-grande">❌ Rejeitar</a>
-                        {% else %}
-                            <span class="text-xs font-semibold bg-red-100 text-red-800 px-2 py-1 rounded-full">❌ Rejeitada</span>
-                            <a href="/admin/aprovar/{{ d.id }}" class="btn-rosa btn-grande">✅ Aprovar</a>
+                    <!-- DADOS DO FATO -->
+                    <div class="mb-4">
+                        <div class="text-xs font-mono text-rose-400 uppercase tracking-wider mb-1">Denunciado & Localidade da Unidade</div>
+                        <h2 class="text-lg font-bold text-white mb-1">
+                            🏢 {{ d.denunciado }} &bull; <span class="text-rose-400 font-mono text-xs">📍 {{ d.cidade }} (Bairro: {{ d.bairro }})</span>
+                        </h2>
+                        <div class="text-sm font-semibold text-slate-200 mb-2">{{ d.assunto }}</div>
+                        <p class="text-sm text-slate-300 mt-2 leading-relaxed bg-slate-950/50 p-3.5 rounded-lg border border-slate-800/80">
+                            {{ d.descricao }}
+                        </p>
+                    </div>
+
+                    <!-- TELEMETRIA DE INTELIGÊNCIA ARTIFICIAL -->
+                    <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 mb-4 font-mono text-xs">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-rose-400 font-bold flex items-center gap-1.5">
+                                🧠 Telemetria da Triagem Neural:
+                            </span>
+                            {% if d.data_analise_ia %}
+                                <span class="text-slate-500">Auditado em: {{ d.data_analise_ia }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2">
+                            <div>
+                                <span class="text-slate-400">Score de Confiança:</span>
+                                {% if d.score_confianca is not none %}
+                                    {% set percent = (d.score_confianca * 100)|round|int %}
+                                    <span class="font-bold {% if percent >= 80 %}text-green-400{% elif percent >= 50 %}text-amber-400{% else %}text-red-400{% endif %}">
+                                        {{ percent }}%
+                                    </span>
+                                    <div class="w-full h-1.5 bg-slate-800 rounded-full mt-1 overflow-hidden">
+                                        <div class="h-full {% if percent >= 80 %}bg-green-400{% elif percent >= 50 %}bg-amber-400{% else %}bg-red-400{% endif %}" style="width: {{ percent }}%;"></div>
+                                    </div>
+                                {% else %}
+                                    <span class="text-slate-500 italic">Pendente de cálculo</span>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <span class="text-slate-400">Aceite do Termo Legal:</span>
+                                {% if d.termo_aceito %}
+                                    <span class="text-green-400 font-bold">✓ Confirmado (Art. 299/340 CP)</span>
+                                {% else %}
+                                    <span class="text-red-400 font-bold">⚠️ Não registrado</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if d.justificativa_ia %}
+                            <div class="mt-2 pt-2 border-t border-slate-800/60 text-slate-300">
+                                <span class="text-slate-400">Justificativa do Modelo:</span> {{ d.justificativa_ia }}
+                            </div>
                         {% endif %}
                     </div>
-                </li>
+
+                    <!-- METADADOS DO AUTOR & ANEXOS -->
+                    <div class="flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-400 mb-4 pt-2">
+                        <div class="flex items-center gap-3">
+                            <span>👤 Autor: <strong class="text-slate-200">{{ d.autor_nome }}</strong> ({{ d.autor_email }})</span>
+                        </div>
+                        <div>
+                            {% if d.anexo %}
+                                <a href="/uploads/{{ d.anexo }}" target="_blank"
+                                   class="btn-cyber-outline btn-pequeno flex items-center gap-1.5">
+                                    📎 Inspecionar Anexo ({{ d.anexo }})
+                                </a>
+                            {% else %}
+                                <span class="text-slate-500 italic">Sem anexo comprobatório</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- AÇÕES DE MODERAÇÃO ADMINISTRATIVA (FORMULÁRIOS SEGUROS) -->
+                    <div class="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-end gap-2.5">
+                        <form method="POST" action="/admin/moderar/{{ d.id }}" class="inline">
+                            <input type="hidden" name="status" value="APROVADO">
+                            <button type="submit" class="px-4 py-2 rounded-lg bg-green-500/20 text-green-300 border border-green-500/40 hover:bg-green-500/30 transition-all font-semibold text-xs flex items-center gap-1 shadow-[0_0_10px_rgba(34,197,94,0.15)]">
+                                ✅ Aprovar e Publicar
+                            </button>
+                        </form>
+
+                        <form method="POST" action="/admin/moderar/{{ d.id }}" class="inline">
+                            <input type="hidden" name="status" value="ALERTA_REVISAO_MANUAL">
+                            <button type="submit" class="px-4 py-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all font-semibold text-xs flex items-center gap-1 shadow-[0_0_10px_rgba(245,158,11,0.15)]">
+                                🚨 Manter em Alerta
+                            </button>
+                        </form>
+
+                        <form method="POST" action="/admin/moderar/{{ d.id }}" class="inline">
+                            <input type="hidden" name="status" value="REPROVADO">
+                            <button type="submit" class="px-4 py-2 rounded-lg bg-red-500/20 text-red-300 border border-red-500/40 hover:bg-red-500/30 transition-all font-semibold text-xs flex items-center gap-1 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
+                                ❌ Reprovar / Arquivar
+                            </button>
+                        </form>
+
+                        <form method="POST" action="/admin/moderar/{{ d.id }}" class="inline">
+                            <input type="hidden" name="status" value="EM_ANALISE_IA">
+                            <button type="submit" class="px-3 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all text-xs font-mono" title="Reenviar para a fila da IA">
+                                🔄 Reenviar IA
+                            </button>
+                        </form>
+                    </div>
+                </article>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
-        <div class="card text-center">
-            <p class="text-slate-500">Nenhuma denúncia cadastrada ainda.</p>
+        <div class="card-cyber text-center py-12">
+            <span class="text-4xl block mb-3">🛡️</span>
+            <h3 class="text-lg font-bold text-white mb-1">Nenhuma ocorrência encontrada nesta fila</h3>
+            <p class="text-sm text-slate-400">
+                {% if filtro_ativo %}
+                    Não há registros com o status selecionado. <a href="/admin" class="text-rose-400 underline">Ver todas as denúncias</a>.
+                {% else %}
+                    O banco de dados não possui denúncias cadastradas ainda.
+                {% endif %}
+            </p>
         </div>
     {% endif %}
 </section>
