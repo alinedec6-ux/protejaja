@@ -11,6 +11,7 @@
                  │
                  │  UC01 Cadastrar-se
                  │  UC02 Entrar (login)
+                 │  UC03 Recuperar senha
                  ▼
         ┌──────────────────────┐
         │       ProtejaJA      │
@@ -22,15 +23,15 @@
             │     USUÁRIO      │   (logado)
             └──────────────────┘
                  │
-                 │  UC03 Enviar denúncia
-                 │  UC04 Anexar prova
-                 │  UC05 Ver minhas denúncias
-                 │  UC06 Ver detalhes de uma denúncia
-                 │  UC07 Sair
+                 │  UC04 Enviar denúncia
+                 │  UC05 Anexar prova
+                 │  UC06 Ver minhas denúncias
+                 │  UC07 Ver detalhes de uma denúncia
+                 │  UC08 Sair
                  ▼
 ```
 
-O participante sem conta (Visitante) pode passar pelo UC01 e UC02 para se tornar Usuário. Somente o Usuário logado acessa as denúncias.
+O participante sem conta (Visitante) pode passar pelo UC01, UC02 e UC03. Somente o Usuário logado acessa as denúncias (UC04 a UC08).
 
 ## 2. Tabela dos casos de uso
 

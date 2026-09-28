@@ -1,11 +1,33 @@
 import os
+import shutil
 import sqlite3
 from flask import g, has_app_context
 from werkzeug.security import generate_password_hash
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-DB_PATH = os.path.join(BASE_DIR, "db", "app.db")
-UPLOAD_DIR = os.path.join(BASE_DIR, "backend", "uploads")
+REPO_DB_PATH = os.path.join(BASE_DIR, "db", "app.db")
+REPO_UPLOAD_DIR = os.path.join(BASE_DIR, "backend", "uploads")
+
+# No Vercel (serverless), o sistema de arquivos do repositório é somente-leitura.
+# Usamos a pasta gravável /tmp para o SQLite e os arquivos de upload.
+IS_VERCEL = bool(os.environ.get("VERCEL"))
+
+if IS_VERCEL:
+    DB_PATH = "/tmp/app.db"
+    UPLOAD_DIR = "/tmp/uploads"
+    if not os.path.exists(DB_PATH) and os.path.exists(REPO_DB_PATH):
+        try:
+            shutil.copy2(REPO_DB_PATH, DB_PATH)
+        except Exception:
+            pass
+    if not os.path.exists(UPLOAD_DIR) and os.path.exists(REPO_UPLOAD_DIR):
+        try:
+            shutil.copytree(REPO_UPLOAD_DIR, UPLOAD_DIR, dirs_exist_ok=True)
+        except Exception:
+            pass
+else:
+    DB_PATH = REPO_DB_PATH
+    UPLOAD_DIR = REPO_UPLOAD_DIR
 
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "admin@protejaja.com")
 ADMIN_SENHA = os.environ.get("ADMIN_SENHA", "admin123")
@@ -249,6 +271,17 @@ def anexos_do_usuario(user_id):
     if not has_app_context():
         conn.close()
     return rows
+
+
+def denuncia_por_anexo(nome_anexo):
+    conn = get_connection()
+    row = conn.execute(
+        "SELECT id, user_id, status, anexo FROM reports WHERE anexo = ?",
+        (nome_anexo,),
+    ).fetchone()
+    if not has_app_context():
+        conn.close()
+    return row
 
 
 def apagar_conta_completa(user_id):

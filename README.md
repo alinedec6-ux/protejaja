@@ -57,6 +57,11 @@ Ecossistema digital de registro seguro de denúncias comunitárias com **Python 
 │       ├── recuperar.html        # Recuperação de credenciais
 │       ├── ver_denuncia.html     # Detalhamento de protocolo
 │       └── excluir_conta.html    # Direito ao esquecimento (LGPD)
+├── docs/                         # Documentação técnica, acadêmica e especificações
+│   ├── especificacoes/           # Requisitos, Casos de Uso, Wireframes e Doc em Markdown
+│   ├── pdf/                      # Documentação compilada em PDF para entrega
+│   ├── wireframes/               # Visualização dos wireframes interativos (HTML)
+│   └── diagramas/                # Diagramas complementares UML (ex: Diagrama de Classes)
 ├── db/app.db                     # Banco SQLite (gerado/migrado automaticamente)
 ├── test_suite.py                 # Suíte de testes automatizados completa
 ├── run.py                        # Ponto de entrada do servidor

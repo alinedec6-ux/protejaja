@@ -99,6 +99,8 @@ def create_app():
     app = Flask(__name__, template_folder=TEMPLATE_DIR)
     app.config["DATABASE"] = db.DB_PATH
     app.config["MAX_CONTENT_LENGTH"] = MAX_ANEXO
+    app.config["SESSION_COOKIE_HTTPONLY"] = True
+    app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
     app.secret_key = os.environ.get("SECRET_KEY", "protejaja-cyber-key-producao-2026")
 
     app.teardown_appcontext(db.close_connection)
@@ -138,7 +140,33 @@ def create_app():
 
     @app.route("/uploads/<path:filename>")
     def uploads(filename):
-        return send_from_directory(UPLOAD_DIR, filename)
+        nome_seguro = secure_filename(os.path.basename(filename))
+        caminho_arquivo = os.path.join(UPLOAD_DIR, nome_seguro)
+        if not os.path.exists(caminho_arquivo):
+            abort(404)
+
+        denuncia = db.denuncia_por_anexo(nome_seguro)
+        # Denúncias aprovadas têm provas públicas no feed comunitário
+        if denuncia and denuncia["status"] == db.STATUS_APROVADO:
+            return send_from_directory(UPLOAD_DIR, nome_seguro)
+
+        # Usuários logados: permite apenas se for o autor da denúncia ou Administrador
+        user_id = session.get("user_id")
+        if user_id:
+            if db.usuario_eh_admin(user_id) or (denuncia and denuncia["user_id"] == user_id):
+                return send_from_directory(UPLOAD_DIR, nome_seguro)
+
+        # Pipeline de IA: permite se requisição tiver token de serviço válido
+        auth_header = request.headers.get("Authorization", "")
+        token = request.headers.get("X-API-Key", "")
+        if auth_header.startswith("Bearer "):
+            token = auth_header[7:].strip()
+        chave_esperada = os.environ.get("BOT_API_KEY", BOT_API_KEY)
+        if token and token == chave_esperada:
+            return send_from_directory(UPLOAD_DIR, nome_seguro)
+
+        # Acesso negado a provas de terceiros / não aprovadas
+        abort(403)
 
     # ==========================================================
     # SEO / GEO / IAO ENDPOINTS TÉCNICOS
@@ -279,6 +307,8 @@ def create_app():
 
             if not usuario or usuario["data_nascimento"] != data_nascimento:
                 flash("Dados não conferem com nenhuma conta cadastrada.", "error")
+            elif usuario["is_admin"]:
+                flash("Contas administrativas possuem proteção reforçada e não podem ser redefinidas por este canal.", "error")
             else:
                 temporaria = secrets.token_urlsafe(8)
                 db.atualizar_senha(usuario["id"], generate_password_hash(temporaria))
@@ -368,7 +398,12 @@ def create_app():
     @app.route("/denuncias/<int:denuncia_id>")
     @login_obrigatorio
     def ver_denuncia(denuncia_id):
-        denuncia = db.denuncia_do_usuario(session["user_id"], denuncia_id)
+        user_id = session["user_id"]
+        if db.usuario_eh_admin(user_id):
+            denuncia = db.denuncia_por_id_geral(denuncia_id)
+        else:
+            denuncia = db.denuncia_do_usuario(user_id, denuncia_id)
+
         if denuncia is None:
             flash("Denúncia não encontrada ou não pertence à sua conta.", "error")
             return redirect(url_for("denuncias"))
@@ -379,6 +414,10 @@ def create_app():
     def excluir_conta():
         user_id = session["user_id"]
         usuario = db.usuario_por_id(user_id)
+
+        if usuario and usuario["is_admin"]:
+            flash("A conta administradora principal não pode ser excluída pelo portal.", "error")
+            return redirect(url_for("home"))
 
         if request.method == "POST":
             senha = request.form.get("senha") or ""
@@ -419,10 +458,10 @@ def create_app():
             filtro_ativo=filtro,
         )
 
-    @app.route("/admin/moderar/<int:denuncia_id>", methods=["POST", "GET"])
+    @app.route("/admin/moderar/<int:denuncia_id>", methods=["POST"])
     @admin_obrigatorio
     def moderar_denuncia(denuncia_id):
-        novo_status = request.form.get("status") or request.args.get("status")
+        novo_status = request.form.get("status")
         if novo_status not in db.STATUS_VALIDOS:
             flash("Status de moderação inválido.", "error")
             return redirect(url_for("painel_admin"))
@@ -439,12 +478,12 @@ def create_app():
         flash(mensagens.get(novo_status, "Status atualizado com sucesso."), "success")
         return redirect(request.referrer or url_for("painel_admin"))
 
-    @app.route("/admin/aprovar/<int:denuncia_id>", methods=["GET", "POST"])
+    @app.route("/admin/aprovar/<int:denuncia_id>", methods=["POST"])
     @admin_obrigatorio
     def aprovar_denuncia(denuncia_id):
         return moderar_denuncia(denuncia_id)
 
-    @app.route("/admin/rejeitar/<int:denuncia_id>", methods=["GET", "POST"])
+    @app.route("/admin/rejeitar/<int:denuncia_id>", methods=["POST"])
     @admin_obrigatorio
     def rejeitar_denuncia(denuncia_id):
         return moderar_denuncia(denuncia_id)
